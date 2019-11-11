@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.dalyeodalyeok.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_lms"
+        android:name="com.example.dalyeodalyeok.ui.LMSFragment"
+        android:label="@string/menu_lms"
+        tools:layout="@layout/fragment_lms" />
+
+    <fragment
+        android:id="@+id/nav_background"
+        android:name="com.example.dalyeodalyeok.ui.BackgroundFragment"
+        android:label="@string/menu_background"
+        tools:layout="@layout/fragment_background" />
+
+    <fragment
+        android:id="@+id/nav_font"
+        android:name="com.example.dalyeodalyeok.ui.FontFragment"
+        android:label="@string/menu_font"
+        tools:layout="@layout/fragment_font" />
+</navigation>

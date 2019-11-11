@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/calendar"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_lms"
+            android:icon="@drawable/lms_logo"
+            android:title="LMS 계정 연동" />
+    </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_background"
+                android:icon="@drawable/background"
+                android:title="@string/menu_background" />
+            <item
+                android:id="@+id/nav_font"
+                android:icon="@drawable/font"
+                android:title="@string/menu_font" />
+        </menu>
+    </item>
+
+</menu>
