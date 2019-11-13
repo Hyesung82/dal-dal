@@ -32,7 +32,7 @@
 
         android:layout_height="wrap_content"
 
-        android:layout_above="@+id/fab_sub2"
+        app:layout_anchor="@+id/fab_sub2"
 
         android:layout_alignParentRight="true"
 
@@ -59,7 +59,7 @@
 
         android:layout_height="wrap_content"
 
-        android:layout_anchor="@+id/fab"
+        app:layout_anchor="@+id/fab"
 
         android:layout_alignParentRight="true"
 
