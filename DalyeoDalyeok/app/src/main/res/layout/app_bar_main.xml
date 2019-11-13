@@ -8,8 +8,9 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_height="wrap_content"
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -22,6 +23,59 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+        android:id="@+id/fab_sub1"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_above="@+id/fab_sub2"
+
+        android:layout_alignParentRight="true"
+
+        android:layout_marginBottom="15dp"
+
+        android:layout_marginRight="20dp"
+
+        app:backgroundTint="#ffffff"
+
+        android:src="@drawable/calendar"
+
+        android:visibility="invisible"
+
+        app:borderWidth="0dp"
+
+        app:fabSize="normal" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+        android:id="@+id/fab_sub2"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_anchor="@+id/fab"
+
+        android:layout_alignParentRight="true"
+
+        android:layout_marginRight="20dp"
+
+        android:layout_marginBottom="15dp"
+
+        android:src="@drawable/calendar"
+
+        android:visibility="invisible"
+
+        app:backgroundTint="#ffffff"
+
+        app:borderWidth="0dp"
+
+        app:fabSize="normal" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
