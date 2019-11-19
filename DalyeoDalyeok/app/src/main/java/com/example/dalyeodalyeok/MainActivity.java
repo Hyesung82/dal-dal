@@ -31,6 +31,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Animation fab_open, fab_close;
 
     private boolean isFabOpen = false;
+
+    int year;
+    int month;
+    int day;
+
+    String strY;
+    String strM;
+    String strD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +67,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+//        year = getIntent().getIntExtra("calendarYear", 1999);
+//        month = getIntent().getIntExtra("calendarMonth", 4);
+//        day = getIntent().getIntExtra("calendarDay", 19);
+//
+        strY = getIntent().getStringExtra("calendarYear");
+        strM = getIntent().getStringExtra("calendarMonth");
+        strD = getIntent().getStringExtra("calendarDay");
     }
 
     @Override
@@ -88,6 +105,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Toast.makeText(this, "Map Open-!", Toast.LENGTH_SHORT).show();
                 Intent intentSchedule = new Intent(MainActivity.this, ScheduleActivity.class);
+//                intentSchedule.putExtra("year", year);
+//                intentSchedule.putExtra("month", month);
+//                intentSchedule.putExtra("day", day);
+                intentSchedule.putExtra("strY", strY);
+                intentSchedule.putExtra("strM", strM);
+                intentSchedule.putExtra("strD", strD);
                 startActivity(intentSchedule);
 
                 break;
