@@ -25,5 +25,19 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text="일정" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="OnClickHandler"
+        android:text="DatePickerDialog" />
+
+    <TextView
+        android:id="@+id/textView_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="날짜 정보" />
 </LinearLayout>
