@@ -31,13 +31,12 @@ import java.util.Calendar;
 public class HomeFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
-<<<<<<< HEAD
+
     public static Context mContext;
 
     static int getYear, getMonth, getDay;
-=======
+
     CheckBox checkBox1,checkBox2,checkBox3,checkBox4,checkBox5;
->>>>>>> b862339f5091f0f26dfbf7be0856b124500c8de8
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
@@ -74,9 +73,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-<<<<<<< HEAD
         mContext = this.getActivity();
-=======
+
             checkBox1 = (CheckBox)root.findViewById(R.id.checkbox1);
             checkBox2 = (CheckBox)root.findViewById(R.id.checkbox2);
             checkBox3 = (CheckBox)root.findViewById(R.id.checkbox3);
@@ -133,17 +131,12 @@ public class HomeFragment extends Fragment {
                     }
                 }
             });
->>>>>>> b862339f5091f0f26dfbf7be0856b124500c8de8
 
         return root;
     }
 
-<<<<<<< HEAD
     public static String getMyDate () {
         String strDate = getYear + "/" + getMonth + "/" + getDay;
         return strDate;
     }
-=======
-
->>>>>>> b862339f5091f0f26dfbf7be0856b124500c8de8
 }
