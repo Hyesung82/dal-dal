@@ -10,6 +10,13 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.ProgressDialog;
+import androidx.appcompat.app.AppCompatActivity;
+//import androidx.appcompat.widget.LinearLayoutManager;
+//import androidx.appcompat.widget.RecyclerView;
+import android.widget.Button;
+import android.widget.CheckBox;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,12 +31,16 @@ import java.util.Calendar;
 public class HomeFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
+<<<<<<< HEAD
     public static Context mContext;
 
     static int getYear, getMonth, getDay;
+=======
+    CheckBox checkBox1,checkBox2,checkBox3,checkBox4,checkBox5;
+>>>>>>> b862339f5091f0f26dfbf7be0856b124500c8de8
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             final ViewGroup container, Bundle savedInstanceState) {
 //        homeViewModel =
 //                ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -63,13 +74,76 @@ public class HomeFragment extends Fragment {
             }
         });
 
+<<<<<<< HEAD
         mContext = this.getActivity();
+=======
+            checkBox1 = (CheckBox)root.findViewById(R.id.checkbox1);
+            checkBox2 = (CheckBox)root.findViewById(R.id.checkbox2);
+            checkBox3 = (CheckBox)root.findViewById(R.id.checkbox3);
+            checkBox4 = (CheckBox)root.findViewById(R.id.checkbox4);
+            checkBox5 = (CheckBox)root.findViewById(R.id.checkbox5);
+
+            checkBox1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkBox1.isChecked()){
+                        Toast.makeText(container.getContext(), checkBox1.getText()+" checked", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(container.getContext(), checkBox1.getText()+" Unchecked", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            checkBox2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkBox2.isChecked()){
+                        Toast.makeText(container.getContext(), checkBox2.getText()+" checked", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(container.getContext(), checkBox2.getText()+" Unchecked", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            checkBox3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkBox3.isChecked()){
+                        Toast.makeText(container.getContext(), checkBox3.getText()+" checked", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(container.getContext(), checkBox3.getText()+" Unchecked", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            checkBox4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkBox4.isChecked()){
+                        Toast.makeText(container.getContext(), checkBox4.getText()+" checked", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(container.getContext(), checkBox4.getText()+" Unchecked", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            checkBox5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkBox5.isChecked()){
+                        Toast.makeText(container.getContext(), checkBox5.getText()+" checked", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(container.getContext(), checkBox5.getText()+" Unchecked", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+>>>>>>> b862339f5091f0f26dfbf7be0856b124500c8de8
 
         return root;
     }
 
+<<<<<<< HEAD
     public static String getMyDate () {
         String strDate = getYear + "/" + getMonth + "/" + getDay;
         return strDate;
     }
+=======
+
+>>>>>>> b862339f5091f0f26dfbf7be0856b124500c8de8
 }
