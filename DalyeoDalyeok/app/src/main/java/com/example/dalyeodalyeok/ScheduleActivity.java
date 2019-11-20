@@ -85,7 +85,8 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
             {
-                textView_Date.setText(year + "년" + monthOfYear + "월" + dayOfMonth + "일");
+                int monthOfYear_update = monthOfYear + 1;
+                textView_Date.setText(year + "년" + monthOfYear_update + "월" + dayOfMonth + "일");
             }
         };
     }
