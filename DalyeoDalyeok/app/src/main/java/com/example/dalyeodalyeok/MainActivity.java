@@ -3,6 +3,8 @@ package com.example.dalyeodalyeok;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.dalyeodalyeok.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
@@ -40,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String strM;
     String strD;
 
+    static String myDate = HomeFragment.getMyDate();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         strY = getIntent().getStringExtra("calendarYear");
         strM = getIntent().getStringExtra("calendarMonth");
         strD = getIntent().getStringExtra("calendarDay");
+
+        System.out.println("날짜 : " + myDate);
     }
 
     @Override
