@@ -1,11 +1,14 @@
 package com.example.dalyeodalyeok;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -89,10 +93,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.fab_sub1:
+            case R.id.fab_sub1: // add check list button - 팝업창
 
                 toggleFab();
 
+                OnClickHandler();
                 Toast.makeText(this, "Camera Open-!", Toast.LENGTH_SHORT).show();
 
                 break;
@@ -118,6 +123,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+        public void OnClickHandler()
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("버튼추가");
+            builder.setMessage("Plz, input yourname");
+
+            final EditText name = new EditText(this);
+            builder.setView(name);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                    String username = name.getText().toString();
+
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setNeutralButton("Neutral", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    Toast.makeText(getApplicationContext(), "Neutral Click", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+
 
     private void toggleFab() {
 

@@ -24,6 +24,7 @@
 
     <include layout="@layout/content_main"/>
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
 
         android:id="@+id/fab_sub1"
@@ -32,24 +33,23 @@
 
         android:layout_height="wrap_content"
 
-        app:layout_anchor="@+id/fab_sub2"
-
         android:layout_alignParentRight="true"
-
-        android:layout_marginBottom="15dp"
 
         android:layout_marginRight="20dp"
 
-        app:backgroundTint="#ffffff"
+        android:layout_marginBottom="15dp"
 
         android:src="@drawable/calendar"
 
         android:visibility="invisible"
 
+        app:backgroundTint="#ffffff"
+
         app:borderWidth="0dp"
 
-        app:fabSize="normal" />
+        app:fabSize="normal"
 
+        app:layout_anchor="@+id/fab_sub2" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
 
