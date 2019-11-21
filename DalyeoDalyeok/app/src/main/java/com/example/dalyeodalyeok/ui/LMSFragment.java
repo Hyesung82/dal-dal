@@ -129,7 +129,6 @@ public class LMSFragment extends Fragment {
                 data.put("response", response);
 
                 // 로그인(POST)
-                // 여기서 쿠키를 주든 안주든 같은 응답이 돌아옴...
                 Connection.Response res = Jsoup.connect("https://lms.pknu.ac.kr/ilos/lo/login.acl")
                         .userAgent(userAgent)
                         .cookies(loginTryCookie)

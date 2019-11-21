@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Map Open-!", Toast.LENGTH_SHORT).show();
                 Intent intentSchedule = new Intent(MainActivity.this, ScheduleActivity.class);
 
+                startActivity(intentSchedule);
+
                 break;
 
         }
