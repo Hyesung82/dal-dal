@@ -11,10 +11,10 @@
         android:id="@+id/schedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:text="" />
 
+    android:ems="10"
+        android:inputType="textPersonName"
     <Button
         android:id="@+id/OK"
         android:layout_width="match_parent"
@@ -55,4 +55,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="시간정보" />
+
+    <Button
+        android:id="@+id/complete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="완료" />
 </LinearLayout>
