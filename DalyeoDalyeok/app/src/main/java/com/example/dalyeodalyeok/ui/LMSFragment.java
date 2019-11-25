@@ -37,6 +37,7 @@ public class LMSFragment extends Fragment {
     private String htmlContentInStringFormat="";
 
     int cnt=0;
+    int classCnt = 0;
 
     String user = "";
     String password = "";
@@ -78,20 +79,6 @@ public class LMSFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             try {
                 Document doc = Jsoup.connect(htmlPageUrl).get();
-
-                Elements titles = doc.select("title");
-                System.out.println("-----------------------------------------");
-                for(Element e: titles) {
-                    System.out.println("title: " + e.text());
-                    htmlContentInStringFormat += e.text().trim() + "\n";
-                }
-
-                titles = doc.select("body div div div div h2");
-                System.out.println("-------------------------------------------");
-                for(Element e: titles) {
-                    System.out.println("title: " + e.text());
-                    htmlContentInStringFormat += e.text().trim() + "\n";
-                }
 
                 SSLConnect ssl = new SSLConnect();
                 ssl.postHttps("https://lms.pknu.ac.kr/ilos/lo/login.acl", 1000, 1000);
@@ -174,12 +161,33 @@ public class LMSFragment extends Fragment {
                         .cookies(loginCookie)
                         .get();
 
+                String myClasses = "";
+                String[] classArr = new String[10];
+
+                Elements myClassName = mainPageDocument.select("body div div div div div div ol li em");
+                for (Element em : myClassName) {
+                    String className = em.text();
+                    String campus = className.split("]")[0];
+                    if (campus.equals("[대연") || campus.equals("[용당") || campus.equals("[사이버")) {
+                        myClasses += className.trim() + "\n";
+                        classArr[classCnt] = mainPageDocument.select("body div div div div div div ol li em").get(classCnt).attr("kj");
+                        classCnt++;
+                    }
+                }
+
+                System.out.println("수강 과목 수 : " + classCnt);
+                System.out.println("수강 과목 : " + myClasses);
+                System.out.println("수강 과목 array : ");
+                for (int i = 0; i < classCnt; i++) {
+                    System.out.println(classArr[i]);
+                }
+
                 // 수강과목(POST)
-                Map<String, String> reportData = new HashMap<>();
-                reportData.put("KJKEY", "A20193100305101");
-                reportData.put("returnData", "json");
-                reportData.put("returnURI", "/ilos/st/course/submain_form.acl");
-                reportData.put("encoding", "utf-8");
+//                Map<String, String> reportData = new HashMap<>();
+//                reportData.put("KJKEY", myClass1); // 객체지향프로그래밍 "A20193100305101"
+//                reportData.put("returnData", "json");
+//                reportData.put("returnURI", "/ilos/st/course/submain_form.acl");
+//                reportData.put("encoding", "utf-8");
 
 //                Document classPageDoc = Jsoup.connect("http://lms.pknu.ac.kr/ilos/st/course/eclass_room2.acl")
 //                        .timeout(3000)
@@ -191,50 +199,8 @@ public class LMSFragment extends Fragment {
 //
 //                System.out.println("수강과목 document : " + classPageDoc);
 
-                Connection.Response resClass = Jsoup.connect("http://lms.pknu.ac.kr/ilos/st/course/eclass_room2.acl")
-                        .userAgent(userAgent)
-                        .cookies(loginTryCookie)
-                        .data(reportData)
-                        .data("returnURL", "/ilos/st/course/submain_form.acl")
-                        .data("lectType", "0")
-                        .cookies(loginCookie)
-                        .ignoreContentType(true)
-                        .method(Connection.Method.POST)
-                        .execute();
-
-                System.out.println("응답 resClass : " + resClass);
-                System.out.println("resClass 상태 메시지 : " + resClass.statusMessage());
-
-                // 로그인 성공 후 얻은 쿠키
-                // 쿠키 중 JSESSION이라는 값을 확인할 수 있다
-                Map<String, String> classCookie = resClass.cookies();
-                System.out.println("resClass 쿠키 : " + classCookie);
-
-                // 과제 페이지
-                Document myReportDocument = Jsoup.connect("http://lms.pknu.ac.kr/ilos/st/course/submain_form.acl")
-                        .userAgent(userAgent)
-                        .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
-                        .header("Accept-Encoding", "gzip, deflate")
-                        .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
-                        .header("Cache-Control", "no-cache")
-                        .header("Connection", "keep-alive")
-                        .header("Host", "lms.pknu.ac.kr")
-                        .header("Pragma", "no-cache")
-                        .header("Referer", "http://lms.pknu.ac.kr/ilos/st/course/submain_form.acl")
-                        .header("Upgrade-Insecure-Requests", "1")
-                        .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
-                        .data("returnURL", "/ilos/st/course/submain_form.acl")
-                        .data("lectType", "0")
-                        .ignoreContentType(true)
-                        .cookies(loginCookie)
-                        .data(reportData)
-                        .get();
-
-                 System.out.println("문서 파싱 : " + myReportDocument);
-
                 Elements myPageTd = myPageDocument.select("body div div div div div form div table tbody tr td");
                 Elements myClass = mainPageDocument.select("body div div div div div div ol li em");
-                Elements myReport = myReportDocument.select("div div div ol li em a");
 
 //                for (Element td : myPageTd) {
 //                    String myName = td.text();
@@ -252,11 +218,55 @@ public class LMSFragment extends Fragment {
 //                    System.out.println(className);
 //                    htmlContentInStringFormat += className.trim() + "\n";
 //                }
-                for (Element div : myReport) {
-                    String report = div.text();
 
-                    System.out.println(report);
-                    htmlContentInStringFormat += report.trim() + "\n";
+
+                for (int i = 0; i < classCnt; i++) {
+                    Connection.Response resClass = Jsoup.connect("http://lms.pknu.ac.kr/ilos/st/course/eclass_room2.acl")
+                            .userAgent(userAgent)
+                            .cookies(loginTryCookie)
+                            //.data(reportData)
+                            .data("KJKEY", classArr[i])
+                            .data("returnData", "json")
+                            .data("returnURI", "/ilos/st/course/submain_form.acl")
+                            .data("encoding", "utf-8")
+                            .data("returnURL", "/ilos/st/course/submain_form.acl")
+                            .data("lectType", "0")
+                            .cookies(loginCookie)
+                            .ignoreContentType(true)
+                            .method(Connection.Method.POST)
+                            .execute();
+
+                    System.out.println("응답 resClass : " + resClass);
+                    System.out.println("resClass 상태 메시지 : " + resClass.statusMessage());
+
+                    // 로그인 성공 후 얻은 쿠키
+                    // 쿠키 중 JSESSION이라는 값을 확인할 수 있다
+                    Map<String, String> classCookie = resClass.cookies();
+                    System.out.println("resClass 쿠키 : " + classCookie);
+
+                    Document myReportDocument1 = Jsoup.connect("http://lms.pknu.ac.kr/ilos/st/course/submain_form.acl")
+                            .userAgent(userAgent)
+                            .data("returnURL", "/ilos/st/course/submain_form.acl")
+                            .data("lectType", "0")
+                            .ignoreContentType(true)
+                            .cookies(loginCookie)
+                            //.data(reportData)
+                            .data("KJKEY", classArr[i])
+                            .data("returnData", "json")
+                            .data("returnURI", "/ilos/st/course/submain_form.acl")
+                            .data("encoding", "utf-8")
+                            .get();
+
+                    Elements myReport = myReportDocument1.select("div div div ol li em a");
+
+                    for (Element div : myReport) {
+                        String report = div.text();
+
+                        if (report.charAt(0) == '[') {
+                            System.out.println(report);
+                            htmlContentInStringFormat += report.trim() + "\n";
+                        }
+                    }
                 }
 
             } catch (IOException e) {
