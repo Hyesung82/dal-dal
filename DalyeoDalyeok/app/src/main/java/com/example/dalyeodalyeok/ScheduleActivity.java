@@ -98,17 +98,18 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
             {
-                int monthOfYear_update = monthOfYear + 1;
-                selDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear_update) + "/" + Integer.toString(dayOfMonth);
+                //int monthOfYear_update = monthOfYear + 1;
+                selDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear) + "/" + Integer.toString(dayOfMonth);
 
-                textView_Date.setText(year + "년" + monthOfYear_update + "월" + dayOfMonth + "일");
+                textView_Date.setText(year + "년" + monthOfYear + "월" + dayOfMonth + "일");
             }
         };
     }
 
     public void OnClickHandler_date(View view)
     {
-        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod_date,numYear,numMonth,numDay  );
+        int numMonth_update=numMonth-1;
+        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod_date,numYear,numMonth_update,numDay  );
 
         dialog.show();
     }
