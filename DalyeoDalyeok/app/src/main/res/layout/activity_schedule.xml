@@ -56,9 +56,30 @@
         android:gravity="center"
         android:text="시간정보" />
 
+
+    <CheckBox
+        android:id="@+id/rep_Day_checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="매일 반복 일정" />
+
+    <CheckBox
+        android:id="@+id/rep_Week_checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="매주 반복 일정" />
+
+    <CheckBox
+        android:id="@+id/rep_Month_checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="매달 반복 일정" />
+
     <Button
         android:id="@+id/complete_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="완료" />
+
+
 </LinearLayout>
