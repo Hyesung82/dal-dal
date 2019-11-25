@@ -56,9 +56,6 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
-
-
-
         this.InitializeView_date();
         this.InitializeListener_date();
         this.InitializeView_time();
@@ -138,6 +135,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
 
 
     public void btn_Click(View view)
