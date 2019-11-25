@@ -16,6 +16,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.dalyeodalyeok.ui.home.HomeFragment;
+import java.util.Date;import java.util.Date;import java.text.SimpleDateFormat;
+
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -30,11 +32,32 @@ public class ScheduleActivity extends AppCompatActivity {
 
     public ScheduleActivity() {
     }
+    long now = System.currentTimeMillis();
+    Date date = new Date(now);
+    SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
+    SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
+    SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+    SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
+    SimpleDateFormat CurMinuteFormat = new SimpleDateFormat("mm");
+    String strCurYear= CurYearFormat.format(date);
+    String strCurMonth = CurMonthFormat.format(date);
+    String strCurDay = CurDayFormat.format(date);
+    String strCurHour = CurHourFormat.format(date);
+    String strCurMinute = CurMinuteFormat.format(date);
+
+    int numYear = Integer.parseInt(strCurYear);
+    int numMonth = Integer.parseInt(strCurMonth);
+    int numDay = Integer.parseInt(strCurDay);
+    int numHour = Integer.parseInt(strCurHour);
+    int numMinute = Integer.parseInt(strCurMinute);
     public static final int sub = 1001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+
+
+
 
         this.InitializeView_date();
         this.InitializeListener_date();
@@ -85,7 +108,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
     public void OnClickHandler_date(View view)
     {
-        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod_date, 2019, 5, 24);
+        DatePickerDialog dialog = new DatePickerDialog(this, callbackMethod_date,numYear,numMonth,numDay  );
 
         dialog.show();
     }
@@ -110,7 +133,7 @@ public class ScheduleActivity extends AppCompatActivity {
     }
     public void OnClickHandler_time(View view)
     {
-        TimePickerDialog dialog = new TimePickerDialog(this, callbackMethod_time, 8, 10, true);
+        TimePickerDialog dialog = new TimePickerDialog(this, callbackMethod_time, numHour, numMinute, true);
 
         dialog.show();
     }
