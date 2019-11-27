@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.fab_sub1:
+            case R.id.fab_sub1: // 체크리스트 버튼
 
                 toggleFab();
 
