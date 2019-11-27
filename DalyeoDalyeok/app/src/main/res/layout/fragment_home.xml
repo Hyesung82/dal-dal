@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="4dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/image1">
  
     <TextView
         android:id="@+id/text_home"

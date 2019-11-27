@@ -1,5 +1,6 @@
 package com.example.dalyeodalyeok.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +31,11 @@ import java.util.Calendar;
 public class HomeFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
+
+    public static Context mContext;
+
+    static int getYear, getMonth, getDay;
+
     CheckBox checkBox1,checkBox2,checkBox3,checkBox4,checkBox5;
 
     String checkListIndex = MainActivity.getList();
@@ -56,6 +62,11 @@ public class HomeFragment extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                 Toast.makeText(HomeFragment.this.getContext(), "" + year + "/" + (month + 1) + "/" + dayOfMonth, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+
+                getYear = year;
+                getMonth = month + 1;
+                getDay = dayOfMonth;
+
                 String y = Integer.toString(year);
                 String m = Integer.toString(month + 1);
                 String d = Integer.toString(dayOfMonth);
@@ -66,6 +77,8 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        mContext = this.getActivity();
 
             checkBox1 = (CheckBox)root.findViewById(R.id.checkbox1);
             checkBox2 = (CheckBox)root.findViewById(R.id.checkbox2);
@@ -127,5 +140,9 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    public static String getMyDate () {
+        String strDate = getYear + "/" + getMonth + "/" + getDay;
+        return strDate;
+    }
 
 }

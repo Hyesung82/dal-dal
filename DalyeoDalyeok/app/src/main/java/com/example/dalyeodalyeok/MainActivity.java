@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isFabOpen = false;
 
     static String userCheckList;
+    static String myDate = HomeFragment.getMyDate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        System.out.println("날짜 : " + myDate);
     }
 
     @Override
@@ -110,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            builder.setTitle("버튼추가");
-            builder.setMessage("Plz, input yourname");
+            builder.setTitle("Add Check List");
+            builder.setMessage("추가 할 내용을 입력해 주세요.");
 
             final EditText name = new EditText(this);
             builder.setView(name);
@@ -136,13 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            builder.setNeutralButton("Neutral", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    Toast.makeText(getApplicationContext(), "Neutral Click", Toast.LENGTH_SHORT).show();
-                }
-            });
 
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
