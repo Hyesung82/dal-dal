@@ -1,9 +1,12 @@
 package com.example.dalyeodalyeok.ui;
 
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +17,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.dalyeodalyeok.DbOpenHelper;
+import com.example.dalyeodalyeok.R;
+import com.example.dalyeodalyeok.SSLConnect;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.example.dalyeodalyeok.R;
-import com.example.dalyeodalyeok.SSLConnect;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class LMSFragment extends Fragment {
 
@@ -35,6 +41,11 @@ public class LMSFragment extends Fragment {
     private EditText LMSPASSWORD;
     private TextView textviewHtmlDocument;
     private String htmlContentInStringFormat="";
+    private DbOpenHelper mDbOpenHelper;
+
+    static private String SHARE_NAME = "SHARE_PREF";
+    static SharedPreferences sharedPref = null;
+    static SharedPreferences.Editor editor = null;
 
     int cnt=0;
     int classCnt = 0;
@@ -52,6 +63,9 @@ public class LMSFragment extends Fragment {
         textviewHtmlDocument= (TextView)root.findViewById(R.id.tvCrawling);
         textviewHtmlDocument.setMovementMethod(new ScrollingMovementMethod());
 
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        editor = sharedPref.edit();
+
         Button htmlTitleButton = (Button)root.findViewById(R.id.btnCrawling);
         htmlTitleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +73,14 @@ public class LMSFragment extends Fragment {
                 System.out.println((cnt + 1) + "번째 파싱");
                 user = LMSID.getText().toString();
                 password = LMSPASSWORD.getText().toString();
+
+                editor.putString("user", user);
+                editor.putString("password", password);
+
+                mDbOpenHelper = new DbOpenHelper(getContext());
+                mDbOpenHelper.open();
+                mDbOpenHelper.create();
+
                 JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
                 jsoupAsyncTask.execute();
                 cnt++;
@@ -103,7 +125,7 @@ public class LMSFragment extends Fragment {
                 String challenge = mainPageDocument.select("input#challenge").val();
                 String response = mainPageDocument.select("input#response").val();
 
-                // Window, Chrome의 User Agent
+                // Windows, Chrome의 User Agent
                 String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36";
 
                 // 전송할 폼 데이터
@@ -135,15 +157,6 @@ public class LMSFragment extends Fragment {
                 // LMS 마이페이지
                 Document myPageDocument = Jsoup.connect("http://lms.pknu.ac.kr/ilos/mp/myinfo_form.acl")
                         .userAgent(userAgent)
-                        .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
-                        .header("Accept-Encoding", "gzip, deflate")
-                        .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
-                        .header("Cache-Control", "no-cache")
-                        .header("Connection", "keep-alive")
-                        .header("Host", "lms.pknu.ac.kr")
-                        .header("Pragma", "no-cache")
-                        .header("Referer", "http://lms.pknu.ac.kr/ilos/main/main_form.acl")
-                        .header("Upgrade-Insecure-Requests", "1")
                         .cookies(loginCookie)
                         .get();
                 // 메인페이지
@@ -161,15 +174,15 @@ public class LMSFragment extends Fragment {
                         .cookies(loginCookie)
                         .get();
 
-                String myClasses = "";
-                String[] classArr = new String[10];
+                String[] myClasses = new String[15];
+                String[] classArr = new String[15];
 
                 Elements myClassName = mainPageDocument.select("body div div div div div div ol li em");
                 for (Element em : myClassName) {
                     String className = em.text();
                     String campus = className.split("]")[0];
                     if (campus.equals("[대연") || campus.equals("[용당") || campus.equals("[사이버")) {
-                        myClasses += className.trim() + "\n";
+                        myClasses[classCnt] = className.trim();
                         classArr[classCnt] = mainPageDocument.select("body div div div div div div ol li em").get(classCnt).attr("kj");
                         classCnt++;
                     }
@@ -202,14 +215,19 @@ public class LMSFragment extends Fragment {
                 Elements myPageTd = myPageDocument.select("body div div div div div form div table tbody tr td");
                 Elements myClass = mainPageDocument.select("body div div div div div div ol li em");
 
-//                for (Element td : myPageTd) {
-//                    String myName = td.text();
-//                    // 태그의 속성도 추출 가능
-//                    // String url = td.attr("abs:value");
-//
-//                    System.out.println(myName);
-//                    htmlContentInStringFormat += myName.trim() + "\n";
-//                }
+                int eCount = 0;
+                for (Element td : myPageTd) {
+                    String myName = td.text();
+                    // 태그의 속성도 추출 가능
+                    // String url = td.attr("abs:value");
+                    System.out.println(myName);
+                    if (eCount == 1) {
+                        htmlContentInStringFormat += myName.trim() + "\n";
+                        editor.putString("userName", myName.trim());
+                        editor.apply();
+                    }
+                    eCount++;
+                }
 //                for (Element td : myClass) {
 //                    String className = td.text();
 //                    // 태그의 속성도 추출 가능
@@ -218,7 +236,6 @@ public class LMSFragment extends Fragment {
 //                    System.out.println(className);
 //                    htmlContentInStringFormat += className.trim() + "\n";
 //                }
-
 
                 for (int i = 0; i < classCnt; i++) {
                     Connection.Response resClass = Jsoup.connect("http://lms.pknu.ac.kr/ilos/st/course/eclass_room2.acl")
@@ -265,9 +282,24 @@ public class LMSFragment extends Fragment {
                         if (report.charAt(0) == '[') {
                             System.out.println(report);
                             htmlContentInStringFormat += report.trim() + "\n";
+
+                            if (!mDbOpenHelper.search(myClasses[i], report)) { // DB에 같은 과제가 없으면
+                                mDbOpenHelper.insertColumn(myClasses[i], report.trim());
+                                Log.d("DB 저장", "완료");
+                            }
                         }
                     }
                 }
+
+                System.out.println("DB 출력 : ");
+                showDatabase("_id");
+
+                String IDnPASSWORD = "";
+                Map<String, ?> totalValue = sharedPref.getAll();
+                for(Map.Entry<String, ?> entry : totalValue.entrySet()) {
+                    IDnPASSWORD += entry.getKey().toString() + ": " + entry.getValue().toString() + "\r\n";
+                }
+                System.out.println(IDnPASSWORD);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -278,6 +310,19 @@ public class LMSFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             textviewHtmlDocument.setText(htmlContentInStringFormat);
+        }
+    }
+
+    public void showDatabase(String sort) {
+        Cursor iCursor = mDbOpenHelper.sortColumn(sort);
+        Log.d("showDatabase", "DB Size: " + iCursor.getCount());
+        while(iCursor.moveToNext()) {
+            String tempIndex = iCursor.getString(iCursor.getColumnIndex("_id"));
+            String tempSubject = iCursor.getString(iCursor.getColumnIndex("subject"));
+            String tempReport = iCursor.getString(iCursor.getColumnIndex("report"));
+
+            String result = tempIndex + tempSubject + tempReport;
+            System.out.println(result);
         }
     }
 }
