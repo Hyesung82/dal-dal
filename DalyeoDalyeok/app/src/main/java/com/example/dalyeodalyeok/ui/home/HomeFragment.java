@@ -32,6 +32,8 @@ public class HomeFragment extends Fragment {
 //    private HomeViewModel homeViewModel;
     CheckBox checkBox1,checkBox2,checkBox3,checkBox4,checkBox5;
 
+    String checkListIndex = MainActivity.getList();
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
 //        homeViewModel =
@@ -44,6 +46,9 @@ public class HomeFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
+
+        checkListIndex = getActivity().getIntent().getStringExtra("userCheckList");
+        System.out.println("체크리스트 가져오기 : " + checkListIndex);
 
         CalendarView calendarView = (CalendarView) root.findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.dalyeodalyeok.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
@@ -36,13 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean isFabOpen = false;
 
-    int year;
-    int month;
-    int day;
-
-    String strY;
-    String strM;
-    String strD;
+    static String userCheckList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-//        year = getIntent().getIntExtra("calendarYear", 1999);
-//        month = getIntent().getIntExtra("calendarMonth", 4);
-//        day = getIntent().getIntExtra("calendarDay", 19);
-//
-        strY = getIntent().getStringExtra("calendarYear");
-        strM = getIntent().getStringExtra("calendarMonth");
-        strD = getIntent().getStringExtra("calendarDay");
     }
 
     @Override
@@ -110,12 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Toast.makeText(this, "Map Open-!", Toast.LENGTH_SHORT).show();
                 Intent intentSchedule = new Intent(MainActivity.this, ScheduleActivity.class);
-//                intentSchedule.putExtra("year", year);
-//                intentSchedule.putExtra("month", month);
-//                intentSchedule.putExtra("day", day);
-                intentSchedule.putExtra("strY", strY);
-                intentSchedule.putExtra("strM", strM);
-                intentSchedule.putExtra("strD", strD);
                 startActivity(intentSchedule);
 
                 break;
@@ -139,8 +121,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int id)
                 {
                     Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
-                    String username = name.getText().toString();
-
+                    Intent homeIntent = new Intent(MainActivity.this, HomeFragment.class);
+                    userCheckList = name.getText().toString();
+                    homeIntent.putExtra("userCheckList", userCheckList);
+                    startActivity(homeIntent);
                 }
             });
 
@@ -181,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else {
 
-//            fab.setImageResource(R.drawable.ic_close);
-
             fab_sub1.startAnimation(fab_open);
 
             fab_sub2.startAnimation(fab_open);
@@ -209,5 +191,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public static String getList() {
+        return userCheckList;
     }
 }
