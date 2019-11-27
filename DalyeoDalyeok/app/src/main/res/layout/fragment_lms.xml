@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="ID 입력" />
+            android:hint="ID 입력"/>
 
         <EditText
             android:id="@+id/LMS_PASSWORD"
