@@ -2,41 +2,35 @@ package com.example.dalyeodalyeok.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.TextView;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
-import android.app.ProgressDialog;
-import androidx.appcompat.app.AppCompatActivity;
-//import androidx.appcompat.widget.LinearLayoutManager;
-//import androidx.appcompat.widget.RecyclerView;
-import android.widget.Button;
-import android.widget.CheckBox;
-
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.dalyeodalyeok.DbOpenHelper;
 import com.example.dalyeodalyeok.MainActivity;
 import com.example.dalyeodalyeok.R;
 
-import java.util.Calendar;
+//import androidx.appcompat.widget.LinearLayoutManager;
+//import androidx.appcompat.widget.RecyclerView;
 
 public class HomeFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
 
     public static Context mContext;
+
+    static SharedPreferences sharedPreferences;
 
     private DbOpenHelper mDbOpenHelper;
 

@@ -1,49 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.LMSFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="HELLO LMS FRAGMENT" />
+
+            <EditText
+                android:id="@+id/LMS_ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="ID 입력"/>
+
+            <EditText
+                android:id="@+id/LMS_PASSWORD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btnCrawling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="크롤링하기" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/my_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/btnReload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="크롤링하기" />
+
+            <TextView
+                android:id="@+id/tvMyPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvCrawling"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="HELLO LMS FRAGMENT" />
-
-        <EditText
-            android:id="@+id/LMS_ID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="ID 입력"/>
-
-        <EditText
-            android:id="@+id/LMS_PASSWORD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword" />
-
-        <Button
-            android:id="@+id/btnCrawling"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="크롤링하기" />
-
-        <TextView
-            android:id="@+id/tvCrawling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-    </LinearLayout>
-
-
-</FrameLayout>
+        android:text="" />
+</LinearLayout>

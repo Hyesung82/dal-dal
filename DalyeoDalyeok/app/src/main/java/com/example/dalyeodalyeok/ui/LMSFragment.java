@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,23 +34,25 @@ import java.util.Map;
 
 public class LMSFragment extends Fragment {
 
-    private String htmlPageUrl = "http://lms.pknu.ac.kr/ilos/main/main_form.acl";
+    private static String htmlPageUrl = "http://lms.pknu.ac.kr/ilos/main/main_form.acl";
     private String loginPageUrl = "http://lms.pknu.ac.kr/ilos/main/member/login_form.acl";
     private EditText LMSID;
     private EditText LMSPASSWORD;
-    private TextView textviewHtmlDocument;
-    private String htmlContentInStringFormat="";
-    private DbOpenHelper mDbOpenHelper;
+    private static TextView textviewHtmlDocument;
+    private LinearLayout llSignIn;
+    private LinearLayout llMyPage;
+    private static String htmlContentInStringFormat="";
+    private static DbOpenHelper mDbOpenHelper;
 
     static private String SHARE_NAME = "SHARE_PREF";
     static SharedPreferences sharedPref = null;
     static SharedPreferences.Editor editor = null;
 
     int cnt=0;
-    int classCnt = 0;
+    static int classCnt = 0;
 
-    String user = "";
-    String password = "";
+    static String user = "";
+    static String password = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup contatiner, Bundle savedInstanceState) {
@@ -61,8 +64,19 @@ public class LMSFragment extends Fragment {
         textviewHtmlDocument= (TextView)root.findViewById(R.id.tvCrawling);
         textviewHtmlDocument.setMovementMethod(new ScrollingMovementMethod());
 
+        llSignIn = (LinearLayout)root.findViewById(R.id.sign_in);
+        llMyPage = (LinearLayout)root.findViewById(R.id.my_page);
+
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = sharedPref.edit();
+
+        if (!sharedPref.contains("user")) {
+            llSignIn.setVisibility(View.VISIBLE);
+            llMyPage.setVisibility(View.INVISIBLE);
+        } else {
+            llSignIn.setVisibility(View.INVISIBLE);
+            llMyPage.setVisibility(View.VISIBLE);
+        }
 
         Button htmlTitleButton = (Button)root.findViewById(R.id.btnCrawling);
         htmlTitleButton.setOnClickListener(new View.OnClickListener() {
@@ -85,10 +99,26 @@ public class LMSFragment extends Fragment {
             }
         });
 
+        Button reloadButton = (Button)root.findViewById(R.id.btnReload);
+        reloadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println((cnt + 1) + "번째 파싱");
+
+                mDbOpenHelper = new DbOpenHelper(getContext());
+                mDbOpenHelper.open();
+                mDbOpenHelper.create();
+
+                JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
+                jsoupAsyncTask.execute();
+                cnt++;
+            }
+        });
+
         return root;
     }
 
-    private class JsoupAsyncTask extends AsyncTask<Void, Void, Void> {
+    public static class JsoupAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -307,11 +337,13 @@ public class LMSFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            textviewHtmlDocument.setText(htmlContentInStringFormat);
+            System.out.println("htmlDocument : " + htmlContentInStringFormat);
+            if (htmlContentInStringFormat.equals("")) textviewHtmlDocument.setText("새로운 알림이 없습니다.");
+            else textviewHtmlDocument.setText(htmlContentInStringFormat);
         }
     }
 
-    public void showDatabase(String sort) {
+    public static void showDatabase(String sort) {
         Cursor iCursor = mDbOpenHelper.sortColumn(sort);
         Log.d("showDatabase", "DB Size: " + iCursor.getCount());
         while(iCursor.moveToNext()) {
