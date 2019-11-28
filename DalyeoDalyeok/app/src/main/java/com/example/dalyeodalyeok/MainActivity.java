@@ -15,6 +15,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean isFabOpen = false;
 
+    private DbOpenHelper mDbOpenHelper;
+
     static String userCheckList;
     static String myDate = HomeFragment.getMyDate();
 
@@ -46,12 +51,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         mContext = getApplicationContext();
         setSupportActionBar(toolbar);
-        fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
 
+        mDbOpenHelper = new DbOpenHelper(this);
+        mDbOpenHelper.open();
+
+        fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
         fab = findViewById(R.id.fab);
         fab_sub1 = (FloatingActionButton) findViewById(R.id.fab_sub1);
-
         fab_sub2 = (FloatingActionButton) findViewById(R.id.fab_sub2);
         fab.setOnClickListener(this);
         fab_sub1.setOnClickListener(this);
@@ -84,11 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.fab_sub1: // add check list button - 팝업창
 
-
                 toggleFab();
 
                 OnClickHandler();
-                Toast.makeText(this, "Camera Open-!", Toast.LENGTH_SHORT).show();
 
                 break;
 
@@ -98,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 toggleFab();
 
-                Toast.makeText(this, "Map Open-!", Toast.LENGTH_SHORT).show();
                 Intent intentSchedule = new Intent(MainActivity.this, ScheduleActivity.class);
                 startActivity(intentSchedule);
 
@@ -123,10 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int id)
                 {
                     Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
-                    Intent homeIntent = new Intent(MainActivity.this, HomeFragment.class);
+
+//                    Intent homeIntent = new Intent(MainActivity.this, HomeFragment.class);
                     userCheckList = name.getText().toString();
-                    homeIntent.putExtra("userCheckList", userCheckList);
-                    startActivity(homeIntent);
+
+                    mDbOpenHelper.insertColumn("할 일", userCheckList, 0);
+//                    homeIntent.putExtra("userCheckList", userCheckList);
+//                    startActivity(homeIntent);
                 }
             });
 
