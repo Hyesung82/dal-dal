@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +27,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener callbackMethod_date;
     private TextView textView_Time;
     private TimePickerDialog.OnTimeSetListener callbackMethod_time;
+    private DbOpenHelper mDbOpenHelper;
     String selDate;
     String selTime;
     String selSchedule;
@@ -63,6 +66,10 @@ public class ScheduleActivity extends AppCompatActivity {
 
         textView_Time = (TextView)findViewById(R.id.textView_time);
 
+        mDbOpenHelper = new DbOpenHelper(getApplicationContext());
+        mDbOpenHelper.open();
+        mDbOpenHelper.create();
+
         Button finishBtn = findViewById(R.id.complete_button);
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +104,7 @@ public class ScheduleActivity extends AppCompatActivity {
             {
                 //int monthOfYear_update = monthOfYear + 1;
                 selDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear) + "/" + Integer.toString(dayOfMonth);
-
+                Log.d("선택된 날짜", selDate);
                 textView_Date.setText(year + "년" + monthOfYear + "월" + dayOfMonth + "일");
             }
         };
@@ -125,7 +132,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
                 selTime = Integer.toString(hourOfDay) + ":" + Integer.toString(minute);
                 textView_Time.setText(hourOfDay + "시" + minute + "분");
-
+                Log.d("선택된 시간", selTime);
             }
         };
     }
@@ -145,5 +152,23 @@ public class ScheduleActivity extends AppCompatActivity {
 
         selSchedule = editText.getText().toString();
         textView.setText(editText.getText());
+
+        mDbOpenHelper.insertSchedule(selDate, selTime, selSchedule);
+        showSchedule();
+
+    }
+
+    public void showSchedule() {
+        Cursor iCursor = mDbOpenHelper.sortSchedule("_id");
+        String result = "";
+        while (iCursor.moveToNext()) {
+            String tempDate = iCursor.getString(iCursor.getColumnIndex("date"));
+            String tempTime = iCursor.getString(iCursor.getColumnIndex("time"));
+            String tempSchedule = iCursor.getString(iCursor.getColumnIndex("schedule"));
+
+            result += tempDate + "$" + tempTime + "$" + tempSchedule + "\n";
+        }
+
+        Log.d("스케줄", result);
     }
 }

@@ -22,6 +22,7 @@ public class DbOpenHelper {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(DataBases.CreateDB._CREATE0);
+            db.execSQL(DataBases.CreateDB._CREATE1);
         }
 
         @Override
@@ -100,6 +101,19 @@ public class DbOpenHelper {
     public Cursor findUnchecked() {
         String[] condition = {"0"};
         Cursor c = mDB.rawQuery("SELECT * FROM usertable WHERE checked=?;", condition);
+        return c;
+    }
+
+    public long insertSchedule(String date, String time, String schedule) {
+        ContentValues values = new ContentValues();
+        values.put(DataBases.CreateDB.SCHEDULE, schedule);
+        values.put(DataBases.CreateDB.DATE, date);
+        values.put(DataBases.CreateDB.TIME, time);
+        return mDB.insert(DataBases.CreateDB._TABLENAME1, null, values);
+    }
+
+    public Cursor sortSchedule(String sort) {
+        Cursor c = mDB.rawQuery("SELECT * FROM scheduletable ORDER BY " + sort + ";", null);
         return c;
     }
 }
