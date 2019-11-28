@@ -31,8 +31,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class LMSFragment extends Fragment {
 
     private String htmlPageUrl = "http://lms.pknu.ac.kr/ilos/main/main_form.acl";
