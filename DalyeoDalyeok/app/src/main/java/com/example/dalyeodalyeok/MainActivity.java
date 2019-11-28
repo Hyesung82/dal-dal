@@ -1,14 +1,17 @@
 package com.example.dalyeodalyeok;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -33,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean isFabOpen = false;
 
+    static String userCheckList;
     static String myDate = HomeFragment.getMyDate();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +82,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.fab_sub1: // 체크리스트 버튼
+            case R.id.fab_sub1: // add check list button - 팝업창
+
 
                 toggleFab();
 
+                OnClickHandler();
                 Toast.makeText(this, "Camera Open-!", Toast.LENGTH_SHORT).show();
 
                 break;
@@ -95,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 Toast.makeText(this, "Map Open-!", Toast.LENGTH_SHORT).show();
                 Intent intentSchedule = new Intent(MainActivity.this, ScheduleActivity.class);
-
                 startActivity(intentSchedule);
 
                 break;
@@ -103,6 +107,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+        public void OnClickHandler()
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Add Check List");
+            builder.setMessage("추가 할 내용을 입력해 주세요.");
+
+            final EditText name = new EditText(this);
+            builder.setView(name);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                    Intent homeIntent = new Intent(MainActivity.this, HomeFragment.class);
+                    userCheckList = name.getText().toString();
+                    homeIntent.putExtra("userCheckList", userCheckList);
+                    startActivity(homeIntent);
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+
 
     private void toggleFab() {
 
@@ -119,8 +159,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isFabOpen = false;
 
         } else {
-
-//            fab.setImageResource(R.drawable.ic_close);
 
             fab_sub1.startAnimation(fab_open);
 
@@ -148,5 +186,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public static String getList() {
+        return userCheckList;
     }
 }
