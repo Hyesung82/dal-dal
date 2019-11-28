@@ -284,7 +284,7 @@ public class LMSFragment extends Fragment {
                             htmlContentInStringFormat += report.trim() + "\n";
 
                             if (!mDbOpenHelper.search(myClasses[i], report)) { // DB에 같은 과제가 없으면
-                                mDbOpenHelper.insertColumn(myClasses[i], report.trim());
+                                mDbOpenHelper.insertColumn(myClasses[i], report.trim(), 0);
                                 Log.d("DB 저장", "완료");
                             }
                         }
@@ -320,8 +320,9 @@ public class LMSFragment extends Fragment {
             String tempIndex = iCursor.getString(iCursor.getColumnIndex("_id"));
             String tempSubject = iCursor.getString(iCursor.getColumnIndex("subject"));
             String tempReport = iCursor.getString(iCursor.getColumnIndex("report"));
+            String tempChecked = iCursor.getString(iCursor.getColumnIndex("checked"));
 
-            String result = tempIndex + tempSubject + tempReport;
+            String result = tempIndex + tempSubject + tempReport + tempChecked;
             System.out.println(result);
         }
     }
