@@ -11,12 +11,15 @@ import android.widget.TextView;
 
 import com.example.dalyeodalyeok.R;
 import com.example.dalyeodalyeok.SampleData;
+import com.example.dalyeodalyeok.ViewHolder;
 
 import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter {
 
     private ArrayList<SampleData> sample = new ArrayList<SampleData>();
+    ViewHolder viewHolder;
+    SampleData item;
 
     public MyAdapter() {
 
@@ -44,10 +47,20 @@ public class MyAdapter extends BaseAdapter {
         final Context context = parent.getContext();
 
         if(convertView == null) {
-
+            viewHolder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.check_box, parent, false);
+            convertView = inflater.inflate(R.layout.check_box, null);
+
+            viewHolder.setCheckBox((CheckBox) convertView.findViewById(R.id.checkbox1));
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        viewHolder.checkBox.setClickable(false);
+        viewHolder.checkBox.setFocusable(false);
+
+//        viewHolder.checkBox.setChecked(item.isChecked());
 
         CheckBox oTextReport = (CheckBox) convertView.findViewById(R.id.checkbox1);
 
@@ -63,5 +76,10 @@ public class MyAdapter extends BaseAdapter {
         item.setTodo(report);
 
         sample.add(item);
+    }
+
+    public void checkConfirm(int position) {
+        SampleData item = sample.get(position);
+//        item.setChecked(!item.isChecked());
     }
 }
