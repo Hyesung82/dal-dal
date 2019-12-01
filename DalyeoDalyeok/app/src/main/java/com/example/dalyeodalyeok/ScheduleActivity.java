@@ -6,9 +6,13 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -18,7 +22,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+
+
+
 public class ScheduleActivity extends AppCompatActivity {
+
 
     private TextView textView_Date;
     private DatePickerDialog.OnDateSetListener callbackMethod_date;
@@ -28,6 +36,7 @@ public class ScheduleActivity extends AppCompatActivity {
     String selDate;
     String selTime;
     String selSchedule;
+
 
     public ScheduleActivity() {
     }
@@ -56,6 +65,18 @@ public class ScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+
+        Spinner s = (Spinner)findViewById(R.id.spinner);
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+
 
         this.InitializeView_date();
         this.InitializeListener_date();
@@ -167,4 +188,5 @@ public class ScheduleActivity extends AppCompatActivity {
 
         Log.d("스케줄", result);
     }
+
 }

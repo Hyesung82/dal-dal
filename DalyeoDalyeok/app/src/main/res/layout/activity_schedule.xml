@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScheduleActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ScheduleActivity">
 
     <EditText
         android:id="@+id/schedule"
@@ -14,7 +14,8 @@
         android:text="" />
 
     android:ems="10"
-        android:inputType="textPersonName"
+    android:inputType="textPersonName"
+
     <Button
         android:id="@+id/OK"
         android:layout_width="match_parent"
@@ -56,24 +57,18 @@
         android:gravity="center"
         android:text="시간정보" />
 
-
-    <CheckBox
-        android:id="@+id/rep_Day_checkBox"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="매일 반복 일정" />
+        android:gravity="center"
+        android:text="반복" />
 
-    <CheckBox
-        android:id="@+id/rep_Week_checkBox"
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="매주 반복 일정" />
-
-    <CheckBox
-        android:id="@+id/rep_Month_checkBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="매달 반복 일정" />
+        android:entries="@array/repeat_schedule" />
 
     <Button
         android:id="@+id/complete_button"
