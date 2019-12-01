@@ -15,7 +15,13 @@
         android:id="@+id/nav_lms"
         android:name="com.example.dalyeodalyeok.ui.LMSFragment"
         android:label="@string/menu_lms"
-        tools:layout="@layout/fragment_lms" />
+        tools:layout="@layout/fragment_lms"/>
+
+    <fragment
+        android:id="@+id/nav_myinfo"
+        android:name="com.example.dalyeodalyeok.ui.MyinfoFragment"
+        android:label="LMS 계정 정보"
+        tools:layout="@layout/fragment_lms"/>
 
     <fragment
         android:id="@+id/nav_background"

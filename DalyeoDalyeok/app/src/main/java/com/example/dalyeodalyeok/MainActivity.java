@@ -3,7 +3,9 @@ package com.example.dalyeodalyeok;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
@@ -24,12 +26,14 @@ import com.example.dalyeodalyeok.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private AppBarConfiguration mAppBarConfiguration;
 
     private Context mContext;
-    private  FloatingActionButton fab;
+    private FloatingActionButton fab;
     private FloatingActionButton fab_sub1, fab_sub2;
 
     private Animation fab_open, fab_close;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     static String userCheckList;
     static String myDate = HomeFragment.getMyDate();
+    static SharedPreferences sharedPreferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +69,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_lms, R.id.nav_background, R.id.nav_font)
-                .setDrawerLayout(drawer)
-                .build();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (!sharedPreferences.contains("user")) {
+            mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_lms, R.id.nav_background, R.id.nav_font)
+                    .setDrawerLayout(drawer)
+                    .build();
+        } else {
+            mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_lms, R.id.nav_background, R.id.nav_font)
+                    .setDrawerLayout(drawer)
+                    .build();
+        }
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -190,9 +203,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    public static String getList() {
-        return userCheckList;
     }
 }

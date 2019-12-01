@@ -70,13 +70,13 @@ public class LMSFragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = sharedPref.edit();
 
-        if (!sharedPref.contains("user")) {
-            llSignIn.setVisibility(View.VISIBLE);
-            llMyPage.setVisibility(View.INVISIBLE);
-        } else {
-            llSignIn.setVisibility(View.INVISIBLE);
-            llMyPage.setVisibility(View.VISIBLE);
-        }
+//        if (!sharedPref.contains("user")) {
+//            llSignIn.setVisibility(View.VISIBLE);
+//            llMyPage.setVisibility(View.INVISIBLE);
+//        } else {
+//            llSignIn.setVisibility(View.INVISIBLE);
+//            llMyPage.setVisibility(View.VISIBLE);
+//        }
 
         Button htmlTitleButton = (Button)root.findViewById(R.id.btnCrawling);
         htmlTitleButton.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +96,9 @@ public class LMSFragment extends Fragment {
                 JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
                 jsoupAsyncTask.execute();
                 cnt++;
+
+                llSignIn.setVisibility(View.VISIBLE);
+                llMyPage.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -252,6 +255,16 @@ public class LMSFragment extends Fragment {
                     if (eCount == 1) {
                         htmlContentInStringFormat += myName.trim() + "\n";
                         editor.putString("userName", myName.trim());
+                        editor.apply();
+                    }
+                    else if (eCount == 4) {
+                        htmlContentInStringFormat += myName.trim() + "\n";
+                        editor.putString("userPhone", myName.trim());
+                        editor.apply();
+                    }
+                    else if (eCount == 6) {
+                        htmlContentInStringFormat += myName.trim() + "\n";
+                        editor.putString("userEmail", myName.trim());
                         editor.apply();
                     }
                     eCount++;
