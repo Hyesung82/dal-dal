@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="repeat_schedule">
+        <item >사용 안 함</item>
+        <item >매일</item>
+        <item >매주</item>
+        <item >매달</item>
+        <item >매년</item>
+    </string-array>
+</resources>
