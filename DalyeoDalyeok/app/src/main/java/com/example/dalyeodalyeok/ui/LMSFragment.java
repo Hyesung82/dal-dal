@@ -1,5 +1,6 @@
 package com.example.dalyeodalyeok.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -17,8 +18,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dalyeodalyeok.DbOpenHelper;
+import com.example.dalyeodalyeok.MainActivity;
 import com.example.dalyeodalyeok.R;
 import com.example.dalyeodalyeok.SSLConnect;
 
@@ -39,8 +44,6 @@ public class LMSFragment extends Fragment {
     private EditText LMSID;
     private EditText LMSPASSWORD;
     private static TextView textviewHtmlDocument;
-    private LinearLayout llSignIn;
-    private LinearLayout llMyPage;
     private static String htmlContentInStringFormat="";
     private static DbOpenHelper mDbOpenHelper;
 
@@ -56,7 +59,7 @@ public class LMSFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup contatiner, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_lms, contatiner, false);
+        final View root = inflater.inflate(R.layout.fragment_lms, contatiner, false);
 
         LMSID = (EditText)root.findViewById(R.id.LMS_ID);
         LMSPASSWORD = (EditText)root.findViewById(R.id.LMS_PASSWORD);
@@ -64,19 +67,8 @@ public class LMSFragment extends Fragment {
         textviewHtmlDocument= (TextView)root.findViewById(R.id.tvCrawling);
         textviewHtmlDocument.setMovementMethod(new ScrollingMovementMethod());
 
-        llSignIn = (LinearLayout)root.findViewById(R.id.sign_in);
-        llMyPage = (LinearLayout)root.findViewById(R.id.my_page);
-
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = sharedPref.edit();
-
-//        if (!sharedPref.contains("user")) {
-//            llSignIn.setVisibility(View.VISIBLE);
-//            llMyPage.setVisibility(View.INVISIBLE);
-//        } else {
-//            llSignIn.setVisibility(View.INVISIBLE);
-//            llMyPage.setVisibility(View.VISIBLE);
-//        }
 
         Button htmlTitleButton = (Button)root.findViewById(R.id.btnCrawling);
         htmlTitleButton.setOnClickListener(new View.OnClickListener() {
@@ -97,26 +89,30 @@ public class LMSFragment extends Fragment {
                 jsoupAsyncTask.execute();
                 cnt++;
 
-                llSignIn.setVisibility(View.VISIBLE);
-                llMyPage.setVisibility(View.INVISIBLE);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.nav_host_fragment, new MyinfoFragment());
+                fragmentTransaction.commit();
             }
         });
 
-        Button reloadButton = (Button)root.findViewById(R.id.btnReload);
-        reloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println((cnt + 1) + "번째 파싱");
-
-                mDbOpenHelper = new DbOpenHelper(getContext());
-                mDbOpenHelper.open();
-                mDbOpenHelper.create();
-
-                JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
-                jsoupAsyncTask.execute();
-                cnt++;
-            }
-        });
+//        Button reloadButton = (Button)root.findViewById(R.id.btnReload);
+//        reloadButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println((cnt + 1) + "번째 파싱");
+//
+//                mDbOpenHelper = new DbOpenHelper(getContext());
+//                mDbOpenHelper.open();
+//                mDbOpenHelper.create();
+//
+//                JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
+//                jsoupAsyncTask.execute();
+//                cnt++;
+//
+//
+//            }
+//        });
 
         return root;
     }

@@ -1,13 +1,7 @@
 package com.example.dalyeodalyeok.ui;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.dalyeodalyeok.R;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
-import java.util.Map;
+import com.example.dalyeodalyeok.R;
 
 public class MyinfoFragment extends Fragment {
 
@@ -25,6 +20,7 @@ public class MyinfoFragment extends Fragment {
 
     static SharedPreferences sharedPreferences = null;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_myinfo, container, false);
