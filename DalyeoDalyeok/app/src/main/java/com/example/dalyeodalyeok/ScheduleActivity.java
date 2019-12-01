@@ -29,9 +29,9 @@ public class ScheduleActivity extends AppCompatActivity {
     String selTime;
     String selSchedule;
 
-
     public ScheduleActivity() {
     }
+
     long now = System.currentTimeMillis();
     Date date = new Date(now);
     SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
@@ -51,6 +51,7 @@ public class ScheduleActivity extends AppCompatActivity {
     int numHour = Integer.parseInt(strCurHour);
     int numMinute = Integer.parseInt(strCurMinute);
     public static final int sub = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +72,12 @@ public class ScheduleActivity extends AppCompatActivity {
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDbOpenHelper.insertSchedule(selDate, selTime, selSchedule);
+                showSchedule();
+
                 finish();
             }
         });
-
 
         Button OK = (Button)findViewById(R.id.OK);
         OK.setOnClickListener(new Button.OnClickListener() {
@@ -87,6 +90,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
     }
+
     public void InitializeView_date()
     {
         textView_Date = (TextView)findViewById(R.id.textView_date);
@@ -114,6 +118,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
     public void InitializeView_time()
     {
         textView_Date = (TextView)findViewById(R.id.textView_date);
@@ -140,8 +145,6 @@ public class ScheduleActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
-
     public void btn_Click(View view)
     {
         TextView textView = (TextView)findViewById(R.id.textView2);
@@ -149,10 +152,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
         selSchedule = editText.getText().toString();
         textView.setText(editText.getText());
-
-        mDbOpenHelper.insertSchedule(selDate, selTime, selSchedule);
-        showSchedule();
-
     }
 
     public void showSchedule() {

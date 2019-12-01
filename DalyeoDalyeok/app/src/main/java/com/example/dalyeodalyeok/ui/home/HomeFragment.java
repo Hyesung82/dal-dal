@@ -75,9 +75,10 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 SampleData item = (SampleData)parent.getItemAtPosition(position);
                 deleteKey = item.gettodo();
-                Log.d("111", deleteKey);
-                //Toast.makeText(getContext(), myAdapter.getItem(position).gettodo(), Toast.LENGTH_SHORT).show();
-                Log.d("클릭 테스트", position + " 클릭됨");
+                Log.d("삭제", deleteKey);
+                Toast.makeText(getContext(), deleteKey, Toast.LENGTH_SHORT).show();
+
+                // 체크박스 체크/해제하는 함수 만들기!
             }
         });
 
@@ -92,7 +93,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                 Toast.makeText(HomeFragment.this.getContext(), "" + year + "/" + (month + 1) + "/" + dayOfMonth, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
 
                 getYear = year;
                 getMonth = month + 1;
@@ -102,10 +102,6 @@ public class HomeFragment extends Fragment {
                 String m = Integer.toString(month + 1);
                 String d = Integer.toString(dayOfMonth);
                 System.out.println("날짜 : " + y + "/" + m + "/" + d);
-                intent.putExtra("calendarYear", y);
-                intent.putExtra("calendarMonth", m);
-                intent.putExtra("calendarDay", d);
-                startActivity(intent);
             }
         });
 
@@ -183,23 +179,26 @@ public class HomeFragment extends Fragment {
             String tempSubject = iCursor.getString(iCursor.getColumnIndex("subject"));
             String tempReport = iCursor.getString(iCursor.getColumnIndex("report"));
 
-            result += tempSubject + "$" + tempReport + "\n";
+            if (tempSubject.equals("할 일"))
+                result += tempReport + "\n";
+            else
+                result += tempSubject + ": " + tempReport + "\n";
         }
 
         return result;
     }
 
-    public void InitializeMovieData()
-    {
-        movieDataList = new ArrayList<SampleData>();
-
-        mDbOpenHelper = new DbOpenHelper(getContext());
-        mDbOpenHelper.open();
-        String str = getDatabase();
-
-        String[] result = str.split("\n");
-        for (int i = 0; i < result.length; i++) {
-            myAdapter.addItem(result[i]);
-        }
-    }
+//    public void InitializeMovieData()
+//    {
+//        movieDataList = new ArrayList<SampleData>();
+//
+//        mDbOpenHelper = new DbOpenHelper(getContext());
+//        mDbOpenHelper.open();
+//        String str = getDatabase();
+//
+//        String[] result = str.split("\n");
+//        for (int i = 0; i < result.length; i++) {
+//            myAdapter.addItem(result[i]);
+//        }
+//    }
 }

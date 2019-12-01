@@ -19,7 +19,6 @@ public class MyAdapter extends BaseAdapter {
 
     private ArrayList<SampleData> sample = new ArrayList<SampleData>();
     ViewHolder viewHolder;
-    SampleData item;
 
     public MyAdapter() {
 
