@@ -1,12 +1,16 @@
 package com.example.dalyeodalyeok;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Layout;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,21 +21,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.dalyeodalyeok.ui.LMSFragment;
-import com.example.dalyeodalyeok.ui.MyinfoFragment;
-import com.example.dalyeodalyeok.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Map;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -71,18 +70,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_sub2.setOnClickListener(this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem nav_login = menu.findItem(R.id.nav_lms);
+        MenuItem nav_info = menu.findItem(R.id.nav_myinfo);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        if (!sharedPreferences.contains("user")) {
+        if (!sharedPreferences.contains("user")) {
+            nav_login.setVisible(true);
+            nav_info.setVisible(false);
             mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_lms, R.id.nav_background, R.id.nav_font)
                     .setDrawerLayout(drawer)
                     .build();
-//        } else {
-//            mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_myinfo, R.id.nav_background, R.id.nav_font)
-//                    .setDrawerLayout(drawer)
-//                    .build();
-//        }
+        } else {
+            nav_login.setVisible(false);
+            nav_info.setVisible(true);
+            mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_myinfo, R.id.nav_background, R.id.nav_font)
+                    .setDrawerLayout(drawer)
+                    .build();
+        }
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
