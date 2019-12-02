@@ -214,8 +214,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/pknu-wap/DalDal"));
-        startActivity(intent);
+        if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/pknu-wap/DalDal"));
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
