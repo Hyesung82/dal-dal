@@ -19,10 +19,9 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-
-
-
+import java.util.Locale;
 
 
 public class ScheduleActivity extends AppCompatActivity {
@@ -93,28 +92,31 @@ public class ScheduleActivity extends AppCompatActivity {
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_Click(v);
+
                 mDbOpenHelper.insertSchedule(selDate, selTime, selSchedule);
                 showSchedule();
 
                 finish();
             }
         });
-
-        Button OK = (Button)findViewById(R.id.OK);
-        OK.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                if(view.getId() == R.id.OK) {
-                    btn_Click(view);
-                }
-            }
-        });
     }
 
-    public void InitializeView_date()
-    {
-        textView_Date = (TextView)findViewById(R.id.textView_date);
+    public void InitializeView_date() {
+        textView_Date = (TextView) findViewById(R.id.textView_date);
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
+
+        String weekDay = weekdayFormat.format(currentTime);
+        String year = yearFormat.format(currentTime);
+        String month = monthFormat.format(currentTime);
+        String day = dayFormat.format(currentTime);
+
+        textView_Date.setText( year + "년 " + month + "월 " + day + "일 " + weekDay + "요일");
+
     }
 
     public void InitializeListener_date()
@@ -124,10 +126,10 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
             {
-                //int monthOfYear_update = monthOfYear + 1;
+                int monthOfYear_update = monthOfYear + 1;
                 selDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear) + "/" + Integer.toString(dayOfMonth);
                 Log.d("선택된 날짜", selDate);
-                textView_Date.setText(year + "년" + monthOfYear + "월" + dayOfMonth + "일");
+                textView_Date.setText(year + "년" + monthOfYear_update+ "월" + dayOfMonth + "일");
             }
         };
     }
@@ -142,7 +144,14 @@ public class ScheduleActivity extends AppCompatActivity {
 
     public void InitializeView_time()
     {
-        textView_Date = (TextView)findViewById(R.id.textView_date);
+        textView_Time = (TextView)findViewById(R.id.textView_time);
+      String inTime = new java.text.SimpleDateFormat("HH").format(new java.util.Date());
+      int Time_h =Integer.parseInt(inTime);
+      Time_h=Time_h+1;
+      if(Time_h<=11)
+          textView_Time.setText("오전 "+Integer.toString(Time_h-12)+" : 00");
+      else
+          textView_Time.setText("오후 "+Integer.toString(Time_h-12)+" : 00");
     }
 
     public void InitializeListener_time()
@@ -168,11 +177,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
     public void btn_Click(View view)
     {
-        TextView textView = (TextView)findViewById(R.id.textView2);
         EditText editText = (EditText)findViewById(R.id.schedule);
-
         selSchedule = editText.getText().toString();
-        textView.setText(editText.getText());
     }
 
     public void showSchedule() {
