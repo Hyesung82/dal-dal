@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Layout;
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Menu menu = navigationView.getMenu();
         MenuItem nav_login = menu.findItem(R.id.nav_lms);
         MenuItem nav_info = menu.findItem(R.id.nav_myinfo);
+
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -203,7 +206,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+//        MenuItem mItem = menu.getItem(0);
+
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/pknu-wap/DalDal"));
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
