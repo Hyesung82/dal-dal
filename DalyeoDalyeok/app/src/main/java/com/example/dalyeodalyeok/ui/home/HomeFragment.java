@@ -1,6 +1,8 @@
 package com.example.dalyeodalyeok.ui.home;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -92,16 +94,18 @@ public class HomeFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
-                Toast.makeText(HomeFragment.this.getContext(), "" + year + "/" + (month + 1) + "/" + dayOfMonth, Toast.LENGTH_SHORT).show();
-
-                getYear = year;
-                getMonth = month + 1;
-                getDay = dayOfMonth;
 
                 String y = Integer.toString(year);
                 String m = Integer.toString(month + 1);
                 String d = Integer.toString(dayOfMonth);
                 System.out.println("날짜 : " + y + "/" + m + "/" + d);
+
+                OnClickHandler(y,m,d);
+
+                Toast.makeText(HomeFragment.this.getContext(), "" + year + "/" + (month + 1) + "/" + dayOfMonth, Toast.LENGTH_SHORT).show();
+                getYear = year;
+                getMonth = month + 1;
+                getDay = dayOfMonth;
             }
         });
 
@@ -201,4 +205,23 @@ public class HomeFragment extends Fragment {
 //            myAdapter.addItem(result[i]);
 //        }
 //    }
+
+    public void OnClickHandler(String y, String m, String d)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle(y+"년"+m+"월"+d+"일");
+        builder.setMessage("일정");
+
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }

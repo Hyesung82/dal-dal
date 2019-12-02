@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScheduleActivity"></activity>
+        <activity android:name=".ui.home.schedule_popup"></activity>
+        <activity android:name=".ScheduleActivity" />
         <activity android:name=".ui.LMSFragment" />
         <activity android:name=".ui.home.HomeFragment" />
         <activity android:name=".ui.MyinfoFragment" />
