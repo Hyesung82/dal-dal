@@ -71,7 +71,6 @@ public class HomeFragment extends Fragment {
         String[] result = str.split("\n");
 
         for (int i = 0; i < result.length; i++) {
-            SampleData oItem = new SampleData();
             myAdapter.addItem(result[i]);
         }
 
@@ -84,8 +83,11 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), deleteKey, Toast.LENGTH_SHORT).show();
 
                 // 체크박스 체크/해제하는 함수 만들기!
-                if (item.isChecked == true)
+                if (item.isChecked == true) {
                     item.setChecked(false);
+
+                }
+
                 else
                     item.setChecked(true);
             }

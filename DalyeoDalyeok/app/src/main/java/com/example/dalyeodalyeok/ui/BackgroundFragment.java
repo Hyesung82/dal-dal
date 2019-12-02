@@ -34,9 +34,6 @@ public class BackgroundFragment extends Fragment {
                              ViewGroup contatiner, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_background, contatiner, false);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        editor = sharedPreferences.edit();
-
         imageview = (ImageView)root.findViewById(R.id.imageView);
         imageview.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -57,8 +54,13 @@ public class BackgroundFragment extends Fragment {
             selectedImageUri = data.getData();
             imageview.setImageURI(selectedImageUri);
 
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            editor = sharedPreferences.edit();
+
             editor.putString("image", selectedImageUri.toString());
             Log.d("이미지 URI", selectedImageUri.toString());
+
+            editor.commit();
         }
     }
 }
