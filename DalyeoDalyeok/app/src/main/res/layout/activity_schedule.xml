@@ -70,6 +70,12 @@
         android:layout_height="wrap_content"
         android:entries="@array/repeat_schedule" />
 
+    <TextView
+        android:id="@+id/spinner_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="반복:" />
+
     <Button
         android:id="@+id/complete_button"
         android:layout_width="match_parent"
