@@ -77,12 +77,6 @@
         android:gravity="center"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/spinner_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="반복:" />
 
     <Button
         android:id="@+id/complete_button"

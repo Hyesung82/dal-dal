@@ -64,12 +64,13 @@ public class ScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-    final TextView textView=(TextView)findViewById(R.id.spinner_text);
+
+
         Spinner s = (Spinner)findViewById(R.id.spinner);
         s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textView.setText("반복:"+parent.getItemAtPosition(position));
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
