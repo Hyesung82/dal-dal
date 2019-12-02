@@ -28,32 +28,6 @@
             android:maxDate="12/31/2020"/>
     </FrameLayout>
 
-<!--    <CheckBox-->
-<!--        android:id="@+id/checkbox1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Android"/>-->
-<!--    <CheckBox-->
-<!--        android:id="@+id/checkbox2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Java"/>-->
-<!--    <CheckBox-->
-<!--        android:id="@+id/checkbox3"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Php"/>-->
-<!--    <CheckBox-->
-<!--        android:id="@+id/checkbox4"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Mysql"/>-->
-<!--    <CheckBox-->
-<!--        android:id="@+id/checkbox5"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Json"/>-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

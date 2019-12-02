@@ -19,6 +19,7 @@ public class MyAdapter extends BaseAdapter {
 
     private ArrayList<SampleData> sample = new ArrayList<SampleData>();
     ViewHolder viewHolder;
+    static CheckBox oTextReport;
 
     public MyAdapter() {
 
@@ -61,7 +62,7 @@ public class MyAdapter extends BaseAdapter {
 
 //        viewHolder.checkBox.setChecked(item.isChecked());
 
-        CheckBox oTextReport = (CheckBox) convertView.findViewById(R.id.checkbox1);
+        oTextReport = (CheckBox) convertView.findViewById(R.id.checkbox1);
 
         SampleData item = sample.get(position);
         oTextReport.setText(item.gettodo());
@@ -80,5 +81,9 @@ public class MyAdapter extends BaseAdapter {
     public void checkConfirm(int position) {
         SampleData item = sample.get(position);
 //        item.setChecked(!item.isChecked());
+    }
+
+    public static void setChecked(boolean checked) {
+        oTextReport.setChecked(checked);
     }
 }

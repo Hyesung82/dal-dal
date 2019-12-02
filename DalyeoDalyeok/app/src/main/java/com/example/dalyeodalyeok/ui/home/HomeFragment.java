@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
 
     String deleteKey = "";
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
 //        homeViewModel =
 //                ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -62,8 +62,10 @@ public class HomeFragment extends Fragment {
         listView.setAdapter(myAdapter);
 
         background = (ImageView)root.findViewById(R.id.ivBackground);
-        background.setImageURI(Uri.parse(sharedPreferences.getString("image", "")));
-        Log.d("이미지 uri", sharedPreferences.getString("image", "없음"));
+        String imageUri = sharedPreferences.getString("image", "없음");
+        if (!imageUri.equals(""))
+            background.setImageURI(Uri.parse(sharedPreferences.getString("image", "")));
+        Log.d("이미지 uri", imageUri);
 
         String str = getDatabase();
         String[] result = str.split("\n");
@@ -82,6 +84,10 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), deleteKey, Toast.LENGTH_SHORT).show();
 
                 // 체크박스 체크/해제하는 함수 만들기!
+                if (item.isChecked == true)
+                    item.setChecked(false);
+                else
+                    item.setChecked(true);
             }
         });
 
@@ -109,18 +115,6 @@ public class HomeFragment extends Fragment {
         });
 
         mContext = this.getActivity();
-
-//        checkBox1 = (CheckBox)root.findViewById(R.id.checkbox1);
-//        checkBox1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (checkBox1.isChecked()){
-//                    Toast.makeText(container.getContext(), checkBox1.getText()+" checked", Toast.LENGTH_SHORT).show();
-//                }else{
-//                    Toast.makeText(container.getContext(), checkBox1.getText()+" Unchecked", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
         return root;
     }

@@ -1,6 +1,5 @@
 package com.example.dalyeodalyeok;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,8 +7,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Layout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +26,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -75,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MenuItem nav_login = menu.findItem(R.id.nav_lms);
         MenuItem nav_info = menu.findItem(R.id.nav_myinfo);
 
-
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -103,34 +96,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         switch (v.getId()) {
-
             case R.id.fab:
-
                 toggleFab();
-
                 break;
-
             case R.id.fab_sub1: // add check list button - 팝업창
-
                 toggleFab();
-
                 OnClickHandler();
-
                 break;
-
-
-
             case R.id.fab_sub2: // 일정추가 버튼
-
                 toggleFab();
-
                 Intent intentSchedule = new Intent(MainActivity.this, ScheduleActivity.class);
                 startActivity(intentSchedule);
-
                 break;
-
         }
-
     }
 
         public void OnClickHandler()
@@ -149,64 +127,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
 
-//                    Intent homeIntent = new Intent(MainActivity.this, HomeFragment.class);
                     userCheckList = name.getText().toString();
 
                     mDbOpenHelper.insertColumn("할 일", userCheckList, 0);
-//                    homeIntent.putExtra("userCheckList", userCheckList);
-//                    startActivity(homeIntent);
                 }
             });
 
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
                 @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
+                public void onClick(DialogInterface dialog, int id) {
                     Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
                 }
             });
-
 
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
 
-
     private void toggleFab() {
-
         if (isFabOpen) {
-
             fab_sub1.startAnimation(fab_close);
-
             fab_sub2.startAnimation(fab_close);
-
             fab_sub1.setClickable(false);
-
             fab_sub2.setClickable(false);
 
             isFabOpen = false;
-
         } else {
-
             fab_sub1.startAnimation(fab_open);
-
             fab_sub2.startAnimation(fab_open);
-
             fab_sub1.setClickable(true);
-
             fab_sub2.setClickable(true);
 
             isFabOpen = true;
-
         }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-//        MenuItem mItem = menu.getItem(0);
 
         return true;
     }
