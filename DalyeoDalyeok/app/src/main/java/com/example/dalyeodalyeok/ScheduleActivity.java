@@ -1,27 +1,31 @@
 package com.example.dalyeodalyeok;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.example.dalyeodalyeok.ui.home.HomeFragment;
-import java.util.Date;import java.util.Date;import java.text.SimpleDateFormat;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class ScheduleActivity extends AppCompatActivity {
+
 
     private TextView textView_Date;
     private DatePickerDialog.OnDateSetListener callbackMethod_date;
@@ -35,6 +39,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
     public ScheduleActivity() {
     }
+
     long now = System.currentTimeMillis();
     Date date = new Date(now);
     SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
@@ -54,10 +59,24 @@ public class ScheduleActivity extends AppCompatActivity {
     int numHour = Integer.parseInt(strCurHour);
     int numMinute = Integer.parseInt(strCurMinute);
     public static final int sub = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+
+
+        Spinner s = (Spinner)findViewById(R.id.spinner);
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+
 
         this.InitializeView_date();
         this.InitializeListener_date();
@@ -74,25 +93,31 @@ public class ScheduleActivity extends AppCompatActivity {
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_Click(v);
+
+                mDbOpenHelper.insertSchedule(selDate, selTime, selSchedule);
+                showSchedule();
+
                 finish();
             }
         });
-
-
-        Button OK = (Button)findViewById(R.id.OK);
-        OK.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                if(view.getId() == R.id.OK) {
-                    btn_Click(view);
-                }
-            }
-        });
     }
-    public void InitializeView_date()
-    {
-        textView_Date = (TextView)findViewById(R.id.textView_date);
+
+    public void InitializeView_date() {
+        textView_Date = (TextView) findViewById(R.id.textView_date);
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat weekdayFormat = new SimpleDateFormat("EE", Locale.getDefault());
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
+
+        String weekDay = weekdayFormat.format(currentTime);
+        String year = yearFormat.format(currentTime);
+        String month = monthFormat.format(currentTime);
+        String day = dayFormat.format(currentTime);
+
+        textView_Date.setText( year + "년 " + month + "월 " + day + "일 " + weekDay + "요일");
+
     }
 
     public void InitializeListener_date()
@@ -102,10 +127,10 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
             {
-                //int monthOfYear_update = monthOfYear + 1;
+                int monthOfYear_update = monthOfYear + 1;
                 selDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear) + "/" + Integer.toString(dayOfMonth);
                 Log.d("선택된 날짜", selDate);
-                textView_Date.setText(year + "년" + monthOfYear + "월" + dayOfMonth + "일");
+                textView_Date.setText(year + "년" + monthOfYear_update+ "월" + dayOfMonth + "일");
             }
         };
     }
@@ -117,9 +142,17 @@ public class ScheduleActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
     public void InitializeView_time()
     {
-        textView_Date = (TextView)findViewById(R.id.textView_date);
+        textView_Time = (TextView)findViewById(R.id.textView_time);
+      String inTime = new java.text.SimpleDateFormat("HH").format(new java.util.Date());
+      int Time_h =Integer.parseInt(inTime);
+      Time_h=Time_h+1;
+      if(Time_h<=11)
+          textView_Time.setText("오전 "+Integer.toString(Time_h-12)+" : 00");
+      else
+          textView_Time.setText("오후 "+Integer.toString(Time_h-12)+" : 00");
     }
 
     public void InitializeListener_time()
@@ -143,19 +176,10 @@ public class ScheduleActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
-
     public void btn_Click(View view)
     {
-        TextView textView = (TextView)findViewById(R.id.textView2);
         EditText editText = (EditText)findViewById(R.id.schedule);
-
         selSchedule = editText.getText().toString();
-        textView.setText(editText.getText());
-
-        mDbOpenHelper.insertSchedule(selDate, selTime, selSchedule);
-        showSchedule();
-
     }
 
     public void showSchedule() {
@@ -171,4 +195,5 @@ public class ScheduleActivity extends AppCompatActivity {
 
         Log.d("스케줄", result);
     }
+
 }

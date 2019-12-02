@@ -2,6 +2,7 @@ package com.example.dalyeodalyeok.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,11 @@ public class BackgroundFragment extends Fragment {
     private final int GET_GALLERY_IMAGE = 200;
     private final int RESULT_OK = -1;
     private ImageView imageview;
+
+    public static Uri selectedImageUri;
+
+    SharedPreferences sharedPreferences = null;
+    SharedPreferences.Editor editor = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup contatiner, Bundle savedInstanceState) {
@@ -41,12 +49,18 @@ public class BackgroundFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-        Uri selectedImageUri = data.getData();
-        imageview.setImageURI(selectedImageUri);
+            selectedImageUri = data.getData();
+            imageview.setImageURI(selectedImageUri);
 
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            editor = sharedPreferences.edit();
+
+            editor.putString("image", selectedImageUri.toString());
+            Log.d("이미지 URI", selectedImageUri.toString());
+
+            editor.commit();
+        }
     }
-
-}
 }

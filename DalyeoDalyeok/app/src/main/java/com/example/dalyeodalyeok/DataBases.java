@@ -6,8 +6,6 @@ import java.net.PortUnreachableException;
 
 public class DataBases {
     public static final class CreateDB implements BaseColumns {
-//        public static final String USERID = "userid";
-//        public static final String PASSWORD = "password";
         public static final String SUBJECT = "subject";
         public static final String REPORT = "report";
         public static final String CHECKED = "checked";

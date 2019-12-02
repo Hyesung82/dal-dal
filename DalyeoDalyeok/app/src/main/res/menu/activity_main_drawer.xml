@@ -12,6 +12,11 @@
             android:id="@+id/nav_lms"
             android:icon="@drawable/lms_logo"
             android:title="LMS 계정 연동" />
+        <item
+            android:id="@+id/nav_myinfo"
+            android:icon="@drawable/lms_logo"
+            android:title="LMS 계정 정보"
+            android:visible="false"/>
     </group>
 
     <item android:title="Settings">
