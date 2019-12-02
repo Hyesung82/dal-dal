@@ -75,7 +75,6 @@ public class HomeFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 SampleData item = (SampleData)parent.getItemAtPosition(position);
                 deleteKey = item.gettodo();
-                Log.d("111", deleteKey);
                 //Toast.makeText(getContext(), myAdapter.getItem(position).gettodo(), Toast.LENGTH_SHORT).show();
                 Log.d("클릭 테스트", position + " 클릭됨");
             }
