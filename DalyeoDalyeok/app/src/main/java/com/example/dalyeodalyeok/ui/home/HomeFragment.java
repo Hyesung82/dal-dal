@@ -83,16 +83,19 @@ public class HomeFragment extends Fragment {
             items.add(result[i]);
         }
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 //                SampleData item = (SampleData)parent.getItemAtPosition(position);
 //                deleteKey = item.gettodo();
 //                Toast.makeText(getContext(), deleteKey, Toast.LENGTH_SHORT).show();
-//
-//
-//            }
-//        });
+
+                String todo = items.get(position).toString();
+                String stat = getCheckboxStat(todo);
+                checkTodo(todo, stat);
+            }
+        });
+
 
         mDbOpenHelper = new DbOpenHelper(getContext());
         mDbOpenHelper.open();
@@ -138,6 +141,11 @@ public class HomeFragment extends Fragment {
         return result;
     }
 
+    public void checkTodo(String todo, String checked) {
+        Cursor iCursor = mDbOpenHelper.updateTodo(todo, checked);
+        String result = iCursor.getString(iCursor.getColumnIndex("report"));
+        Log.d("체크/해제 완료", result);
+    }
 
     public void OnClickHandler(String y, String m, String d)
     {
@@ -179,5 +187,12 @@ public class HomeFragment extends Fragment {
 
     public void reloadList() {
         myAdapter.notifyDataSetChanged();
+    }
+
+    public String getCheckboxStat(String todo) {
+        Cursor iCursor = mDbOpenHelper.getCheckedStat(todo);
+        String result = iCursor.getString(iCursor.getColumnIndex("checked"));
+        Log.d("체크 상태", result);
+        return result;
     }
 }

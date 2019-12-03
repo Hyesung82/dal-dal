@@ -128,4 +128,16 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("SELECT * FROM scheduletable WHERE date=?;", condition);
         return c;
     }
+
+    public Cursor updateTodo(String todo, String checked) {
+        String[] condition = {checked, todo};
+        Cursor c = mDB.rawQuery("UPDATE usertable SET checked=? WHERE report=?;", condition);
+        return c;
+    }
+
+    public Cursor getCheckedStat(String todo) {
+        String[] condition = {todo};
+        Cursor c = mDB.rawQuery("SELECT checked FROM usertable WHERE report=?;", condition);
+        return c;
+    }
 }
