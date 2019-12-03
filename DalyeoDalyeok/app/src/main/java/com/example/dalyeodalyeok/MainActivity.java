@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.dalyeodalyeok.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     static String userCheckList;
     static SharedPreferences sharedPreferences = null;
+
+    HomeFragment homeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     userCheckList = name.getText().toString();
 
                     mDbOpenHelper.insertColumn("할 일", userCheckList, 0);
+
+//                    homeFragment.reloadList();
                 }
             });
 

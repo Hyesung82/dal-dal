@@ -6,22 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.dalyeodalyeok.R;
 import com.example.dalyeodalyeok.SampleData;
 import com.example.dalyeodalyeok.ViewHolder;
+import com.example.dalyeodalyeok.ui.home.HomeFragment;
 
 import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter {
 
-    private ArrayList<SampleData> sample = new ArrayList<SampleData>();
-    ViewHolder viewHolder;
+    private static ArrayList<SampleData> sample = new ArrayList<SampleData>();
+    static ViewHolder viewHolder;
     static CheckBox oTextReport;
 
-    public MyAdapter() {
+    public MyAdapter(HomeFragment homeFragment, int simple_list_item_multiple_choice, ArrayList<String> items) {
 
     }
 
@@ -59,6 +62,17 @@ public class MyAdapter extends BaseAdapter {
 
         viewHolder.checkBox.setClickable(false);
         viewHolder.checkBox.setFocusable(false);
+        viewHolder.checkBox.setChecked(false);
+        viewHolder.checkBox.setChecked(((ListView)parent).isItemChecked(position));
+
+        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                int getPosition = (Integer)buttonView.getTag();
+//                sample.get(getPosition).setSelected(buttonView.isChecked());
+                viewHolder.checkBox.setChecked(!isChecked);
+            }
+        });
 
 //        viewHolder.checkBox.setChecked(item.isChecked());
 
@@ -83,7 +97,13 @@ public class MyAdapter extends BaseAdapter {
 //        item.setChecked(!item.isChecked());
     }
 
-    public static void setChecked(boolean checked) {
-        oTextReport.setChecked(checked);
+    public static void setChecked(int position, boolean checked) {
+//        final int tempSize = sample.size();
+        if (checked == true) {
+            sample.get(position).setCheckBoxState(true);
+        } else {
+            sample.get(position).setCheckBoxState(false);
+        }
+
     }
 }

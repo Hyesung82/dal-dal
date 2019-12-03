@@ -104,6 +104,12 @@ public class DbOpenHelper {
         return c;
     }
 
+    public Cursor setChecked(String report, int checked) {
+        String[] condition = {Integer.toString(checked), report};
+        Cursor c = mDB.rawQuery("UPDATE usertable SET checked=? WHERE report=?;", condition);
+        return c;
+    }
+
     public long insertSchedule(String date, String time, String schedule) {
         ContentValues values = new ContentValues();
         values.put(DataBases.CreateDB.SCHEDULE, schedule);

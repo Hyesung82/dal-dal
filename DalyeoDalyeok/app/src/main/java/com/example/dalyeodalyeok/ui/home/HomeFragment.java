@@ -9,10 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,6 +28,8 @@ import com.example.dalyeodalyeok.R;
 import com.example.dalyeodalyeok.SampleData;
 import com.example.dalyeodalyeok.ui.MyAdapter;
 
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
 
 //    private HomeViewModel homeViewModel;
@@ -38,10 +42,13 @@ public class HomeFragment extends Fragment {
 
     static int getYear, getMonth, getDay;
 
+    final ArrayList<String> items = new ArrayList<String>();
+
 //    CheckBox checkBox1;
 
     ListView listView = null;
-    MyAdapter myAdapter;
+//    MyAdapter myAdapter;
+    ArrayAdapter myAdapter;
     ImageView background;
 
     String deleteKey = "";
@@ -57,7 +64,8 @@ public class HomeFragment extends Fragment {
         mDbOpenHelper = new DbOpenHelper(getContext());
         mDbOpenHelper.open();
 
-        myAdapter = new MyAdapter();
+        myAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_multiple_choice, items);
+//        myAdapter = new MyAdapter();
         listView = (ListView)root.findViewById(R.id.listView);
         listView.setAdapter(myAdapter);
 
@@ -71,27 +79,20 @@ public class HomeFragment extends Fragment {
         String[] result = str.split("\n");
 
         for (int i = 0; i < result.length; i++) {
-            myAdapter.addItem(result[i]);
+//            myAdapter.addItem(result[i]);
+            items.add(result[i]);
         }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                SampleData item = (SampleData)parent.getItemAtPosition(position);
-                deleteKey = item.gettodo();
-                Log.d("삭제", deleteKey);
-                Toast.makeText(getContext(), deleteKey, Toast.LENGTH_SHORT).show();
-
-                // 체크박스 체크/해제하는 함수 만들기!
-                if (item.isChecked == true) {
-                    item.setChecked(false);
-
-                }
-
-                else
-                    item.setChecked(true);
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+//                SampleData item = (SampleData)parent.getItemAtPosition(position);
+//                deleteKey = item.gettodo();
+//                Toast.makeText(getContext(), deleteKey, Toast.LENGTH_SHORT).show();
+//
+//
+//            }
+//        });
 
         mDbOpenHelper = new DbOpenHelper(getContext());
         mDbOpenHelper.open();
@@ -119,11 +120,6 @@ public class HomeFragment extends Fragment {
         mContext = this.getActivity();
 
         return root;
-    }
-
-    public static String getMyDate () {
-        String strDate = getYear + "/" + getMonth + "/" + getDay;
-        return strDate;
     }
 
     public String getDatabase() {
@@ -160,5 +156,9 @@ public class HomeFragment extends Fragment {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void reloadList() {
+        myAdapter.notifyDataSetChanged();
     }
 }

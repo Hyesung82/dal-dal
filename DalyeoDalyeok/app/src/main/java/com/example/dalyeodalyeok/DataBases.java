@@ -19,6 +19,7 @@ public class DataBases {
         public static final String SCHEDULE = "schedule";
         public static final String DATE = "date";
         public static final String TIME = "time";
+        public static final String REPEAT = "repeat";
         public static final String _TABLENAME1 = "scheduletable";
         public static final String _CREATE1 = "create table if not exists " + _TABLENAME1 + "("
                 + _ID + " integer primary key autoincrement, "
