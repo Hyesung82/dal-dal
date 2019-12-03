@@ -128,7 +128,7 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
             {
                 int monthOfYear_update = monthOfYear + 1;
-                selDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear) + "/" + Integer.toString(dayOfMonth);
+                selDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear_update) + "/" + Integer.toString(dayOfMonth);
                 Log.d("선택된 날짜", selDate);
                 textView_Date.setText(year + "년" + monthOfYear_update+ "월" + dayOfMonth + "일");
             }

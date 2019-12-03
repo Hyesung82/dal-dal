@@ -142,9 +142,15 @@ public class HomeFragment extends Fragment {
     public void OnClickHandler(String y, String m, String d)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        String date = y + "/" + m + "/" + d;
+
+        mDbOpenHelper = new DbOpenHelper(getContext());
+        mDbOpenHelper.open();
+        String schedule = getSchedule(date);
+        Log.d("스케줄 가져오기", schedule);
 
         builder.setTitle(y+"년"+m+"월"+d+"일");
-        builder.setMessage("일정");
+        builder.setMessage(schedule);
 
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
             @Override
@@ -156,6 +162,19 @@ public class HomeFragment extends Fragment {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public String getSchedule(String date) {
+        Cursor iCursor = mDbOpenHelper.findSchedule(date);
+        String result = "";
+        while (iCursor.moveToNext()) {
+            String tempSchedule = iCursor.getString(iCursor.getColumnIndex("schedule"));
+            String tempTime = iCursor.getString(iCursor.getColumnIndex("time"));
+
+            result += tempTime + "\n" + "-" + tempSchedule + "\n";
+        }
+
+        return result;
     }
 
     public void reloadList() {

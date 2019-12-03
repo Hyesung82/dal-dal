@@ -122,4 +122,10 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("SELECT * FROM scheduletable ORDER BY " + sort + ";", null);
         return c;
     }
+
+    public Cursor findSchedule(String strDate) {
+        String[] condition = {strDate};
+        Cursor c = mDB.rawQuery("SELECT * FROM scheduletable WHERE date=?;", condition);
+        return c;
+    }
 }

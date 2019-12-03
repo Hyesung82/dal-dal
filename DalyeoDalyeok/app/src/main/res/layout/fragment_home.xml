@@ -17,7 +17,7 @@
             android:id="@+id/ivBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/image1"
+            android:src="@drawable/snoopy_b"
             android:scaleType="centerCrop"/>
 
         <CalendarView
@@ -43,7 +43,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:choiceMode="multipleChoice"/>
-
     </ScrollView>
 
 </LinearLayout>
