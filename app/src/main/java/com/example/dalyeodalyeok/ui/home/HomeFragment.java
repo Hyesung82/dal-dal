@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +24,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.dalyeodalyeok.DbOpenHelper;
 import com.example.dalyeodalyeok.R;
-import com.example.dalyeodalyeok.SampleData;
-import com.example.dalyeodalyeok.ui.MyAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -64,13 +63,14 @@ public class HomeFragment extends Fragment {
         mDbOpenHelper = new DbOpenHelper(getContext());
         mDbOpenHelper.open();
 
-        myAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_multiple_choice, items);
+        myAdapter = new ArrayAdapter(Objects.requireNonNull(getContext()), android.R.layout.simple_list_item_multiple_choice, items);
 //        myAdapter = new MyAdapter();
         listView = (ListView)root.findViewById(R.id.listView);
         listView.setAdapter(myAdapter);
 
         background = (ImageView)root.findViewById(R.id.ivBackground);
         String imageUri = sharedPreferences.getString("image", "없음");
+        assert imageUri != null;
         if (!imageUri.equals(""))
             background.setImageURI(Uri.parse(sharedPreferences.getString("image", "")));
         Log.d("이미지 uri", imageUri);
@@ -78,10 +78,7 @@ public class HomeFragment extends Fragment {
         String str = getDatabase();
         String[] result = str.split("\n");
 
-        for (int i = 0; i < result.length; i++) {
-//            myAdapter.addItem(result[i]);
-            items.add(result[i]);
-        }
+        Collections.addAll(items, result);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -127,18 +124,18 @@ public class HomeFragment extends Fragment {
 
     public String getDatabase() {
         Cursor iCursor = mDbOpenHelper.findUnchecked();
-        String result = "";
+        StringBuilder result = new StringBuilder();
         while (iCursor.moveToNext()) {
             String tempSubject = iCursor.getString(iCursor.getColumnIndex("subject"));
             String tempReport = iCursor.getString(iCursor.getColumnIndex("report"));
 
             if (tempSubject.equals("할 일"))
-                result += tempReport + "\n";
+                result.append(tempReport).append("\n");
             else
-                result += tempSubject + ": " + tempReport + "\n";
+                result.append(tempSubject).append(": ").append(tempReport).append("\n");
         }
 
-        return result;
+        return result.toString();
     }
 
     public void checkTodo(String todo, String checked) {
@@ -174,15 +171,15 @@ public class HomeFragment extends Fragment {
 
     public String getSchedule(String date) {
         Cursor iCursor = mDbOpenHelper.findSchedule(date);
-        String result = "";
+        StringBuilder result = new StringBuilder();
         while (iCursor.moveToNext()) {
             String tempSchedule = iCursor.getString(iCursor.getColumnIndex("schedule"));
             String tempTime = iCursor.getString(iCursor.getColumnIndex("time"));
 
-            result += tempTime + "\n" + "-" + tempSchedule + "\n";
+            result.append(tempTime).append("\n").append("-").append(tempSchedule).append("\n");
         }
 
-        return result;
+        return result.toString();
     }
 
     public void reloadList() {

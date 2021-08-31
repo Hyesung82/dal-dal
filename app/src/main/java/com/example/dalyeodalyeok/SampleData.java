@@ -1,9 +1,6 @@
 package com.example.dalyeodalyeok;
 
 import android.widget.CheckBox;
-import android.widget.Checkable;
-
-import com.example.dalyeodalyeok.ui.MyAdapter;
 
 public class SampleData {
     private String reports;

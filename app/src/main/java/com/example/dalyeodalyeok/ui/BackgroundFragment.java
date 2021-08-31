@@ -1,22 +1,19 @@
 package com.example.dalyeodalyeok.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.example.dalyeodalyeok.R;
 
 public class BackgroundFragment extends Fragment {
@@ -60,7 +57,7 @@ public class BackgroundFragment extends Fragment {
             editor.putString("image", selectedImageUri.toString());
             Log.d("이미지 URI", selectedImageUri.toString());
 
-            editor.commit();
+            editor.apply();
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.dalyeodalyeok.ui;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -13,17 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dalyeodalyeok.DbOpenHelper;
-import com.example.dalyeodalyeok.MainActivity;
 import com.example.dalyeodalyeok.R;
 import com.example.dalyeodalyeok.SSLConnect;
 
@@ -34,12 +30,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LMSFragment extends Fragment {
 
-    private static String htmlPageUrl = "http://lms.pknu.ac.kr/ilos/main/main_form.acl";
     private String loginPageUrl = "http://lms.pknu.ac.kr/ilos/main/member/login_form.acl";
     private EditText LMSID;
     private EditText LMSPASSWORD;
@@ -47,7 +43,7 @@ public class LMSFragment extends Fragment {
     private static String htmlContentInStringFormat="";
     private static DbOpenHelper mDbOpenHelper;
 
-    static private String SHARE_NAME = "SHARE_PREF";
+    static private final String SHARE_NAME = "SHARE_PREF";
     static SharedPreferences sharedPref = null;
     static SharedPreferences.Editor editor = null;
 
@@ -90,6 +86,7 @@ public class LMSFragment extends Fragment {
                 cnt++;
 
                 FragmentManager fragmentManager = getFragmentManager();
+                assert fragmentManager != null;
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.nav_host_fragment, new MyinfoFragment());
                 fragmentTransaction.commit();
@@ -127,6 +124,7 @@ public class LMSFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             try {
+                String htmlPageUrl = "http://lms.pknu.ac.kr/ilos/main/main_form.acl";
                 Document doc = Jsoup.connect(htmlPageUrl).get();
 
                 SSLConnect ssl = new SSLConnect();
@@ -216,7 +214,7 @@ public class LMSFragment extends Fragment {
                 }
 
                 System.out.println("수강 과목 수 : " + classCnt);
-                System.out.println("수강 과목 : " + myClasses);
+                System.out.println("수강 과목 : " + Arrays.toString(myClasses));
                 System.out.println("수강 과목 array : ");
                 for (int i = 0; i < classCnt; i++) {
                     System.out.println(classArr[i]);
@@ -331,10 +329,10 @@ public class LMSFragment extends Fragment {
                 System.out.println("DB 출력 : ");
                 showDatabase("_id");
 
-                String IDnPASSWORD = "";
+                StringBuilder IDnPASSWORD = new StringBuilder();
                 Map<String, ?> totalValue = sharedPref.getAll();
                 for(Map.Entry<String, ?> entry : totalValue.entrySet()) {
-                    IDnPASSWORD += entry.getKey().toString() + ": " + entry.getValue().toString() + "\r\n";
+                    IDnPASSWORD.append(entry.getKey().toString()).append(": ").append(entry.getValue().toString()).append("\r\n");
                 }
                 System.out.println(IDnPASSWORD);
 
