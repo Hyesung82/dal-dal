@@ -2,8 +2,6 @@ package com.example.dalyeodalyeok;
 
 import android.provider.BaseColumns;
 
-import java.net.PortUnreachableException;
-
 public class DataBases {
     public static final class CreateDB implements BaseColumns {
         public static final String SUBJECT = "subject";

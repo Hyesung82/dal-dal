@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -58,7 +56,6 @@ public class ScheduleActivity extends AppCompatActivity {
     int numDay = Integer.parseInt(strCurDay);
     int numHour = Integer.parseInt(strCurHour);
     int numMinute = Integer.parseInt(strCurMinute);
-    public static final int sub = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +113,7 @@ public class ScheduleActivity extends AppCompatActivity {
         String month = monthFormat.format(currentTime);
         String day = dayFormat.format(currentTime);
 
-        textView_Date.setText( year + "년 " + month + "월 " + day + "일 " + weekDay + "요일");
+        textView_Date.setText(year + "년 " + month + "월 " + day + "일 " + weekDay + "요일");
 
     }
 
@@ -184,16 +181,16 @@ public class ScheduleActivity extends AppCompatActivity {
 
     public void showSchedule() {
         Cursor iCursor = mDbOpenHelper.sortSchedule("_id");
-        String result = "";
+        StringBuilder result = new StringBuilder();
         while (iCursor.moveToNext()) {
             String tempDate = iCursor.getString(iCursor.getColumnIndex("date"));
             String tempTime = iCursor.getString(iCursor.getColumnIndex("time"));
             String tempSchedule = iCursor.getString(iCursor.getColumnIndex("schedule"));
 
-            result += tempDate + "$" + tempTime + "$" + tempSchedule + "\n";
+            result.append(tempDate).append("$").append(tempTime).append("$").append(tempSchedule).append("\n");
         }
 
-        Log.d("스케줄", result);
+        Log.d("스케줄", result.toString());
     }
 
 }

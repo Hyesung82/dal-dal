@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter {
 
-    private static ArrayList<SampleData> sample = new ArrayList<SampleData>();
+    private static final ArrayList<SampleData> sample = new ArrayList<SampleData>();
     static ViewHolder viewHolder;
     static CheckBox oTextReport;
 
@@ -99,11 +99,6 @@ public class MyAdapter extends BaseAdapter {
 
     public static void setChecked(int position, boolean checked) {
 //        final int tempSize = sample.size();
-        if (checked == true) {
-            sample.get(position).setCheckBoxState(true);
-        } else {
-            sample.get(position).setCheckBoxState(false);
-        }
-
+        sample.get(position).setCheckBoxState(checked);
     }
 }
